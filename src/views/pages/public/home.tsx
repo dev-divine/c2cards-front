@@ -9,7 +9,6 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 
-import logo from '@/assets/logo.png'
 import { faqs, footerNavigation } from './data/home'
 
 export function Home() {

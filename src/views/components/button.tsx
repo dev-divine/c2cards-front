@@ -22,7 +22,7 @@ export function Button({
       {...props}
       disabled={disabled || isLoading}
       className={cn(
-        'max-w-1/2 flex h-12 w-full items-center justify-center rounded bg-primary px-6 font-bold text-white shadow transition-all hover:bg-opacity-90 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400',
+        'flex w-full max-w-sm items-center justify-center rounded bg-dark-blue px-6 py-2 font-bold text-white shadow transition-all hover:bg-opacity-90 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400',
         variant === 'danger' && 'bg-red-900 hover:bg-red-800',
         variant === 'ghost' &&
           'border border-gray-800 bg-transparent text-gray-800 hover:bg-gray-800/5',

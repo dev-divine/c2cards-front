@@ -1,5 +1,7 @@
-import { XCircleIcon } from '@heroicons/react/24/outline'
 import { ComponentProps, forwardRef } from 'react'
+import ReactInputMask from 'react-input-mask'
+import { XCircleIcon } from '@heroicons/react/24/outline'
+
 import { cn } from '@app/utils/cn'
 
 interface Props extends ComponentProps<'input'> {
@@ -8,7 +10,7 @@ interface Props extends ComponentProps<'input'> {
   error?: string
 }
 
-export const Input = forwardRef<HTMLInputElement, Props>(
+export const InputPhone = forwardRef<HTMLInputElement, Props>(
   ({ placeholder, label, name, id, error, className, ...props }, ref) => {
     const inputId = id ?? name
 
@@ -21,14 +23,16 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           {label}
         </label>
 
-        <input
+        <ReactInputMask
+          mask={'+55 (99) 99999-9999'}
+          maskChar={'_'}
           {...props}
-          ref={ref}
+          placeholder={placeholder}
+          ref={ref as any}
           name={name}
           id={inputId}
-          placeholder={placeholder}
           className={cn(
-            'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
+            'focus:border-primary block h-10 w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
             error && '!border-red-600',
             className,
           )}
@@ -44,4 +48,5 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     )
   },
 )
-Input.displayName = 'Input'
+
+InputPhone.displayName = 'InputPhone'

@@ -1,12 +1,12 @@
+import { useState } from 'react'
+import * as RdxSelect from '@radix-ui/react-select'
 import {
   XCircleIcon,
   ChevronDownIcon,
   ChevronUpIcon,
 } from '@heroicons/react/24/outline'
 
-import * as RdxSelect from '@radix-ui/react-select'
-import { useState } from 'react'
-import { cn } from '../../app/utils/cn'
+import { cn } from '@app/utils/cn'
 
 interface Props {
   className?: string
@@ -64,7 +64,7 @@ export function Select({
           </RdxSelect.Trigger>
 
           <RdxSelect.Portal>
-            <RdxSelect.Content className="z-[99] overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)]">
+            <RdxSelect.Content className="z-30 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)]">
               <RdxSelect.ScrollUpButton className="flex h-[25px] cursor-default items-center justify-center bg-white text-gray-800">
                 <ChevronUpIcon className="h-6 text-gray-800" />
               </RdxSelect.ScrollUpButton>

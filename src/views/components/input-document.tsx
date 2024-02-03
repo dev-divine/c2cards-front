@@ -43,7 +43,7 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
               id={inputId}
               ref={ref}
               className={cn(
-                'h-[52px] w-full rounded border border-zinc-900 bg-white px-3 text-gray-800 shadow outline-none',
+                'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
                 error && '!border-red-600',
                 className,
               )}

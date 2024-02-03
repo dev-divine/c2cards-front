@@ -1,11 +1,14 @@
 @baseUrl = https://soure-pa.nobe-treino.com.br/saude
 
 # @name authenticate
-POST https://soure-pa.nobe-treino.com.br/saude/api/users/authenticate
+POST http://3.232.79.43:3333/user
 Content-Type: application/json
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
 
 {
-    "login": "manoelluz",
-    "password": "123456"
+    "document": "09899291676",
+    "email": "bruno.clara@yahoo.com",
+    "name": "Bruno Vilefort Clara",
+    "password": "9431",
+    "phone": "+5531991505564"
 }
+
