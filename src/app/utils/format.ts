@@ -17,6 +17,13 @@ function document(document: string): string {
   }
 }
 
+function currency(value: number) {
+  return Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value)
+}
+
 function phone(number: string): string {
   const cleanNumber = number.replace(/[^\d+]/g, '')
   return cleanNumber.length === 13
@@ -67,4 +74,5 @@ export const Format = {
   document,
   phone,
   name,
+  currency,
 }

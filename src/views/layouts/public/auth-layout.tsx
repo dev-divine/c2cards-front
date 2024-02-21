@@ -6,12 +6,12 @@ export function AuthLayout() {
   return (
     <div className="flex max-h-screen bg-white">
       <div className="my-10 ml-10 hidden max-h-screen w-full sm:block">
-        <div className="bg-light-blue h-full w-full max-w-[95%] rounded-3xl p-12 shadow-xl">
-          <p className="text-dark-blue mb-3 text-2xl font-bold">
+        <div className="h-full w-full max-w-[95%] rounded-3xl bg-light-blue p-12 shadow-xl">
+          <p className="mb-3 text-2xl font-bold text-dark-blue">
             CONHECIMENTO DE MERCADO
           </p>
 
-          <p className="text-main-text mb-4">
+          <p className="mb-4 text-main-text">
             Usamos nossa experiência e estudos constantes sobre o mercado do
             fomento, para conduzir nossos parceiros para o caminho do sucesso.
             Queremos que você aproveite as melhores oportunidades do mercado,
@@ -19,15 +19,15 @@ export function AuthLayout() {
             destaque nos negócios.
           </p>
 
-          <p className="text-dark-blue mb-3 text-2xl font-bold">
+          <p className="mb-3 text-2xl font-bold text-dark-blue">
             TECNOLOGIA X SISTEMA SEGURO E ÁGIL
           </p>
 
-          <p className="text-main-green font-bold">
+          <p className="font-bold text-main-green">
             Trabalhamos com as melhores tecnologias do mercado.
           </p>
 
-          <p className="text-main-text mb-3">
+          <p className="mb-3 text-main-text">
             Nossa plataforma conta com a registradora B3 – Bolsa de Valores,
             referência mundial em infraestrutura de mercado financeiro. O nosso
             processo de emissão de Notas Comerciais está validado e aprovado
@@ -35,7 +35,7 @@ export function AuthLayout() {
             Investimentos.
           </p>
 
-          <p className="text-main-text mb-4">
+          <p className="mb-4 text-main-text">
             Toda solidez, segurança e know-how dessas parceiras garantem
             qualidade total nas informações transacionais e otimização do
             monitoramento da operação.

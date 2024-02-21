@@ -108,16 +108,16 @@ export function PrivateLayout() {
                             Icon={
                               <BuildingStorefrontIcon className="h-6 w-6" />
                             }
-                            linkTo="/ec-clients"
+                            linkTo="/ec_clients"
                             title="Clientes (E.C)"
-                            selected={route.pathname.startsWith('/ec-clients')}
+                            selected={route.pathname.startsWith('/ec_clients')}
                           />
 
                           <SidebarTopic
                             Icon={<PencilSquareIcon className="h-6 w-6" />}
-                            linkTo="/opt-in"
+                            linkTo="/opt_in"
                             title="OPT-In"
-                            selected={route.pathname.startsWith('/opt-in')}
+                            selected={route.pathname.startsWith('/opt_in')}
                           />
 
                           <SidebarTopic
@@ -195,16 +195,16 @@ export function PrivateLayout() {
 
                   <SidebarTopic
                     Icon={<BuildingStorefrontIcon className="h-6 w-6" />}
-                    linkTo="/ec-clients"
+                    linkTo="/ec_clients"
                     title="Clientes (E.C)"
-                    selected={route.pathname.startsWith('/ec-clients')}
+                    selected={route.pathname.startsWith('/ec_clients')}
                   />
 
                   <SidebarTopic
                     Icon={<PencilSquareIcon className="h-6 w-6" />}
-                    linkTo="/opt-in"
+                    linkTo="/opt_in"
                     title="OPT-In"
-                    selected={route.pathname.startsWith('/opt-in')}
+                    selected={route.pathname.startsWith('/opt_in')}
                   />
 
                   <SidebarTopic

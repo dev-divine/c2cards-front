@@ -28,7 +28,7 @@ export function Enrollment() {
       <div className="mt-4 w-full max-w-2xl sm:mt-8">
         <GoBack title="Página inicial" />
         <div className="my-12 flex flex-col justify-center">
-          <h1 className="text-center text-xl font-medium text-primary drop-shadow-sm sm:text-2xl sm:font-semibold">
+          <h1 className="text-primary text-center text-xl font-medium drop-shadow-sm sm:text-2xl sm:font-semibold">
             Ficha de inscrição esportiva para lista de espera
           </h1>
           <p className="mx-auto mt-3 flex items-start gap-1.5 text-sm text-zinc-700">
@@ -189,7 +189,7 @@ export function Enrollment() {
                     <input
                       id="vaccinated-yes"
                       type="radio"
-                      className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('vaccinated')}
                     />
                     <label
@@ -204,7 +204,7 @@ export function Enrollment() {
                     <input
                       id="vaccinated-no"
                       type="radio"
-                      className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('vaccinated')}
                     />
                     <label
@@ -230,7 +230,7 @@ export function Enrollment() {
                     <input
                       id="healthConditions-yes"
                       type="radio"
-                      className="focus:ring-pritext-primary h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="focus:ring-pritext-primary text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('healthConditions')}
                     />
                     <label
@@ -245,7 +245,7 @@ export function Enrollment() {
                     <input
                       id="healthConditions-no"
                       type="radio"
-                      className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('healthConditions')}
                     />
                     <label
@@ -551,7 +551,7 @@ export function Enrollment() {
                     <input
                       id="imageRelease-yes"
                       type="radio"
-                      className="focus:ring-pritext-primary h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="focus:ring-pritext-primary text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('imageRelease')}
                     />
                     <label
@@ -566,7 +566,7 @@ export function Enrollment() {
                     <input
                       id="imageRelease-no"
                       type="radio"
-                      className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                      className="text-primary focus:ring-primary h-4 w-4 border-zinc-300"
                       {...register('imageRelease')}
                     />
                     <label

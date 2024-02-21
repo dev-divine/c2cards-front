@@ -8,14 +8,15 @@ interface Props extends ComponentProps<'input'> {
   name: string
   label: string
   error?: string
+  mask?: string
 }
 
 export const InputPhone = forwardRef<HTMLInputElement, Props>(
-  ({ placeholder, label, name, id, error, className, ...props }, ref) => {
+  ({ placeholder, label, name, mask, id, error, className, ...props }, ref) => {
     const inputId = id ?? name
 
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-1 flex-col">
         <label
           htmlFor={inputId}
           className="block text-sm font-medium leading-6 text-zinc-900"
@@ -24,7 +25,7 @@ export const InputPhone = forwardRef<HTMLInputElement, Props>(
         </label>
 
         <ReactInputMask
-          mask={'+55 (99) 99999-9999'}
+          mask={mask ?? '+55 (99) 99999-9999'}
           maskChar={'_'}
           {...props}
           placeholder={placeholder}
@@ -32,7 +33,7 @@ export const InputPhone = forwardRef<HTMLInputElement, Props>(
           name={name}
           id={inputId}
           className={cn(
-            'focus:border-primary block h-10 w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
+            'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
             error && '!border-red-600',
             className,
           )}

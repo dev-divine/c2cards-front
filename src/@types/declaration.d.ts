@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'react-intl-currency-input'
 declare module '@react-br-forms/cpf-cnpj-mask'
 

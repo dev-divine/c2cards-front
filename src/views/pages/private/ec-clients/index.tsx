@@ -2,20 +2,20 @@ import { useState } from 'react'
 // import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 
 // import { Datepicker } from '@views/components/date-picker'
-import { SelectFilters, SelectProps } from '@views/components/select-filters'
-import { Input } from '@views/components/input'
-import { Button } from '@views/components/button'
-import { Pagination } from '@views/components/pagination'
+import { Format } from '@app/utils/format'
 import {
   InformationCircleIcon,
   PencilSquareIcon,
   PlusIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
-import { Format } from '@app/utils/format'
-import { Modal } from '@views/components/modal'
-import { InputDocument } from '@views/components/input-document'
+import { Button } from '@views/components/button'
+import { Input } from '@views/components/input'
 import { InputPhone } from '@views/components/input-phone'
+import { Modal } from '@views/components/modal'
+import { Pagination } from '@views/components/pagination'
+import { SelectFilters, SelectProps } from '@views/components/select-filters'
+import { useEcClientsController } from './use-ec-clients-controller'
 
 export function ECClients() {
   const [filter, setFilter] = useState<SelectProps>({
@@ -53,13 +53,28 @@ export function ECClients() {
     email: 'cesardefranca@yahoo.com.br',
     profile: 'Cliente E.C.',
     username: 'Cesar',
+    zipCode: '09041-410',
+    state: 'São Paulo',
+    city: 'Santo André',
+    neighborhood: 'Jardim Bela Vista',
+    street: 'Rua Goncalo Fernandes',
+    number: '153',
+    complement: 'Casa',
+    responsible_name: 'Cesar Galvão',
+    responsible_email: 'cesar@gmail.com',
+    responsible_phone: '+5511944277813',
+    responsible_document: '29860877874',
   }
 
   // const [startDate, setStartDate] = useState(startOfMonth(new Date()))
   // const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
 
-  const [openProfileModal, setOpenProfileModal] = useState(true)
+  const [openProfileModal, setOpenProfileModal] = useState(false)
+  const [openCreateModal, setOpenCreateModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
+
+  const { register, errors } = useEcClientsController() // Falta colocar o control
 
   return (
     <div>
@@ -70,13 +85,11 @@ export function ECClients() {
         title="Remover estabelecimento comercial - (E.C)"
         confirmText="Remover"
       >
-        <p className="mb-2 font-medium text-zinc-900">
+        <p className="mb-2 text-zinc-900">
           Este item será removido permanentemente e você não poderá vê-lo
           novamente.
         </p>
-        <p className="font-medium text-zinc-900">
-          Tem certeza de que deseja continuar?
-        </p>
+        <p className="text-zinc-900">Tem certeza de que deseja continuar?</p>
       </Modal>
 
       <Modal
@@ -142,6 +155,305 @@ export function ECClients() {
           value={Format.name(profile.username)}
           disabled
         />
+      </Modal>
+
+      <Modal
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+        type="title"
+        title="Editar empresa - (E.C)"
+        confirmText="Editar empresa"
+      >
+        {/* Input document com controller */}
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Empresa:"
+            value={profile.company}
+            error={errors.company?.message}
+            {...register('company')}
+          />
+
+          <Input
+            label="CPF/CNPJ:"
+            value={Format.document(profile.document)}
+            error={errors.document?.message}
+            {...register('document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <InputPhone
+            label="Telefone:"
+            mask="+55 (99) 9999-9999"
+            value={Format.phone(profile.whatsapp)}
+            error={errors.phone?.message}
+            {...register('phone')}
+          />
+
+          <Input
+            label="E-mail:"
+            value={profile.email}
+            error={errors.email?.message}
+            {...register('email')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="CEP:"
+            value={profile.zipCode}
+            name="zipCode"
+            // error={errors.zipCode?.message}
+            // {...register('zipCode')}
+          />
+
+          <Input
+            label="Estado:"
+            value={profile.state}
+            error={errors.state?.message}
+            {...register('state')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Cidade:"
+            value={profile.state}
+            error={errors.state?.message}
+            {...register('state')}
+          />
+
+          <Input
+            label="Bairro:"
+            value={profile.neighborhood}
+            error={errors.neighborhood?.message}
+            {...register('neighborhood')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Número:"
+            value={profile.number}
+            error={errors.number?.message}
+            {...register('number')}
+          />
+
+          <Input
+            label="Complemento: (opcional)"
+            value={profile.complement}
+            error={errors.complement?.message}
+            {...register('complement')}
+          />
+        </div>
+
+        <div className="my-4 mt-6 h-px w-full bg-zinc-300" />
+
+        {/* Input document com controller */}
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Nome do representante:"
+            value={profile.responsible_name}
+            error={errors.responsible_name?.message}
+            {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF do representante:"
+            value={Format.document(profile.responsible_document)}
+            error={errors.responsible_document?.message}
+            {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <InputPhone
+            label="WhatsApp do representante:"
+            value={Format.phone(profile.responsible_phone)}
+            error={errors.responsible_phone?.message}
+            {...register('responsible_phone')}
+          />
+
+          <Input
+            label="E-mail do representante:"
+            value={profile.responsible_email}
+            error={errors.responsible_email?.message}
+            {...register('responsible_email')}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        open={openCreateModal}
+        setOpen={setOpenCreateModal}
+        type="title"
+        title="Criar empresa - (E.C)"
+        confirmText="Criar empresa"
+      >
+        {/* Input document com controller */}
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Empresa:"
+            value={profile.company}
+            error={errors.company?.message}
+            {...register('company')}
+          />
+
+          <Input
+            label="CPF/CNPJ:"
+            value={Format.document(profile.document)}
+            error={errors.document?.message}
+            {...register('document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <InputPhone
+            label="Telefone:"
+            mask="+55 (99) 9999-9999"
+            value={Format.phone(profile.whatsapp)}
+            error={errors.phone?.message}
+            {...register('phone')}
+          />
+
+          <Input
+            label="E-mail:"
+            value={profile.email}
+            error={errors.email?.message}
+            {...register('email')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="CEP:"
+            value={profile.zipCode}
+            error={errors.zip_code?.message}
+            {...register('zip_code')}
+          />
+
+          <Input
+            label="Estado:"
+            value={profile.state}
+            error={errors.state?.message}
+            {...register('state')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Cidade:"
+            value={profile.state}
+            error={errors.city?.message}
+            {...register('city')}
+          />
+
+          <Input
+            label="Bairro:"
+            value={profile.neighborhood}
+            error={errors.neighborhood?.message}
+            {...register('neighborhood')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Número:"
+            value={profile.number}
+            error={errors.number?.message}
+            {...register('number')}
+          />
+
+          <Input
+            label="Complemento: (opcional)"
+            value={profile.complement}
+            error={errors.complement?.message}
+            {...register('complement')}
+          />
+        </div>
+
+        <div className="my-4 mt-6 h-px w-full bg-zinc-300" />
+
+        {/* Input document com controller */}
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Nome do representante:"
+            value={profile.responsible_name}
+            error={errors.responsible_name?.message}
+            {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF do representante:"
+            value={Format.document(profile.responsible_document)}
+            error={errors.responsible_document?.message}
+            {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <InputPhone
+            label="WhatsApp do representante:"
+            value={Format.phone(profile.responsible_phone)}
+            error={errors.responsible_phone?.message}
+            {...register('responsible_phone')}
+          />
+
+          <Input
+            label="E-mail do representante:"
+            value={profile.responsible_email}
+            error={errors.responsible_email?.message}
+            {...register('responsible_email')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="CEP:"
+            value={profile.zipCode}
+            error={errors.responsible_zip_code?.message}
+            {...register('responsible_zip_code')}
+          />
+
+          <Input
+            label="Estado:"
+            value={profile.state}
+            error={errors.responsible_state?.message}
+            {...register('responsible_state')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Cidade:"
+            value={profile.state}
+            error={errors.responsible_city?.message}
+            {...register('responsible_city')}
+          />
+
+          <Input
+            label="Bairro:"
+            value={profile.neighborhood}
+            error={errors.responsible_neighborhood?.message}
+            {...register('responsible_neighborhood')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Número:"
+            value={profile.number}
+            error={errors.responsible_number?.message}
+            {...register('responsible_number')}
+          />
+
+          <Input
+            label="Complemento: (opcional)"
+            value={profile.complement}
+            error={errors.responsible_complement?.message}
+            {...register('responsible_complement')}
+          />
+        </div>
       </Modal>
 
       <div className="mt-10 rounded bg-white px-5 py-8 shadow">
@@ -211,7 +523,11 @@ export function ECClients() {
             Meus Clientes (E.C) - Estabelecimento Comercial
           </h1>
 
-          <button className="rounded bg-green-base p-3 shadow">
+          <button
+            type="button"
+            className="rounded bg-green-base p-3 shadow"
+            onClick={() => setOpenCreateModal(true)}
+          >
             <PlusIcon className="w-7 text-white" strokeWidth={3} />
           </button>
         </div>
@@ -283,13 +599,21 @@ export function ECClients() {
                   {Format.parseIso(person.createdAt)}
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenProfileModal(true)}
+                  >
                     <InformationCircleIcon className="w-6 text-dark-blue" />
                   </button>
-                  <button>
+
+                  <button type="button" onClick={() => setOpenEditModal(true)}>
                     <PencilSquareIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
-                  <button>
+
+                  <button
+                    type="button"
+                    onClick={() => setOpenDeleteModal(true)}
+                  >
                     <TrashIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
                 </td>

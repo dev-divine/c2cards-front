@@ -1,6 +1,5 @@
 import { usersService } from '../services/users-service'
 import { createContext, useCallback, useState, useEffect } from 'react'
-import axios from 'axios'
 
 const localStoragesKeys = {
   ACCESS_TOKEN: 'accessToken', // Ensure you have the correct key here

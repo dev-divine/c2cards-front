@@ -47,13 +47,13 @@ export function Home() {
           <div className="hidden lg:flex lg:gap-x-12">
             <a
               href="#"
-              className="font-bold leading-6 text-zinc-900 underline-offset-2 transition duration-200 ease-in-out hover:text-primary hover:drop-shadow-sm"
+              className="hover:text-primary font-bold leading-6 text-zinc-900 underline-offset-2 transition duration-200 ease-in-out hover:drop-shadow-sm"
             >
               Frazer Matrícula
             </a>
             <a
               href="#"
-              className="font-bold leading-6 text-zinc-900 underline-offset-2 transition duration-200 ease-in-out hover:text-primary hover:drop-shadow-sm"
+              className="hover:text-primary font-bold leading-6 text-zinc-900 underline-offset-2 transition duration-200 ease-in-out hover:drop-shadow-sm"
             >
               Empréstimo de Espaços Esportivos
             </a>
@@ -63,7 +63,7 @@ export function Home() {
             <div className="hidden lg:flex lg:justify-end">
               <a
                 href="#"
-                className="rounded border border-primary px-3 py-1.5 font-medium leading-6 text-zinc-700 shadow"
+                className="border-primary rounded border px-3 py-1.5 font-medium leading-6 text-zinc-700 shadow"
               >
                 Entrar <span aria-hidden="true">&rarr;</span>
               </a>
@@ -71,7 +71,7 @@ export function Home() {
             <div className="hidden lg:ml-8 lg:flex lg:justify-end">
               <a
                 href="#"
-                className="rounded border border-primary px-3 py-1.5 font-medium leading-6 text-zinc-700 shadow"
+                className="border-primary rounded border px-3 py-1.5 font-medium leading-6 text-zinc-700 shadow"
               >
                 Cadastrar <span aria-hidden="true">&rarr;</span>
               </a>
@@ -150,7 +150,7 @@ export function Home() {
       <main>
         {/* Hero section */}
         <div className="relative isolate overflow-hidden pb-16 pt-14 sm:pb-20">
-          <div className="absolute inset-0 -z-10 h-full w-full bg-background object-cover" />
+          <div className="bg-background absolute inset-0 -z-10 h-full w-full object-cover" />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">

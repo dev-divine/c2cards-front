@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     const inputId = id ?? name
 
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-1 flex-col">
         <label
           htmlFor={inputId}
           className="block text-sm font-medium leading-6 text-zinc-900"

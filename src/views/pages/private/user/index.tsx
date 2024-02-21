@@ -2,21 +2,18 @@ import { useState } from 'react'
 // import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 
 // import { Datepicker } from '@views/components/date-picker'
-import { SelectFilters, SelectProps } from '@views/components/select-filters'
-import { Input } from '@views/components/input'
-import { Button } from '@views/components/button'
-import { Pagination } from '@views/components/pagination'
+import { Format } from '@app/utils/format'
 import {
-  BanknotesIcon,
-  CheckCircleIcon,
-  ClipboardDocumentListIcon,
   InformationCircleIcon,
   PencilSquareIcon,
   PlusIcon,
   TrashIcon,
-  XCircleIcon,
 } from '@heroicons/react/24/outline'
-import { Format } from '@app/utils/format'
+import { Button } from '@views/components/button'
+import { Input } from '@views/components/input'
+import { Modal } from '@views/components/modal'
+import { Pagination } from '@views/components/pagination'
+import { SelectFilters, SelectProps } from '@views/components/select-filters'
 
 export function Users() {
   const [filter, setFilter] = useState<SelectProps>({
@@ -44,44 +41,286 @@ export function Users() {
     },
   ]
 
-  // const [startDate, setStartDate] = useState(startOfMonth(new Date()))
-  // const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
+  const profile = {
+    document: '29860877874',
+    company: 'Cesar Galvão',
+    address:
+      'Rua Goncalo Fernandes, 153, Jardim Bela Vista - Santo André-SP - 09041-410',
+    phone: '+551144277813',
+    whatsapp: '+5511944277813',
+    email: 'cesardefranca@yahoo.com.br',
+    profile: 'Cliente E.C.',
+    username: 'Cesar',
+    zipCode: '09041-410',
+    state: 'São Paulo',
+    city: 'Santo André',
+    neighborhood: 'Jardim Bela Vista',
+    street: 'Rua Goncalo Fernandes',
+    number: '153',
+    complement: 'Casa',
+    responsible_name: 'Cesar Galvão',
+    responsible_email: 'cesar@gmail.com',
+    responsible_phone: '+5511944277813',
+    responsible_document: '29860877874',
+  }
+
+  const [openProfileModal, setOpenProfileModal] = useState(false)
+  const [openCreateModal, setOpenCreateModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   return (
-    <div className="">
+    <>
+      <Modal
+        open={openProfileModal}
+        setOpen={setOpenProfileModal}
+        type="title"
+        title="Dados da empresa - (E.C)"
+        showCloseButton={false}
+        confirmText="Retornar"
+      >
+        <Input
+          name="document"
+          label="CPF/CNPJ:"
+          className="mb-1 max-w-lg"
+          value={Format.document(profile.document)}
+          disabled
+        />
+        <Input
+          name="company"
+          label="Empresa:"
+          className="mb-1 max-w-lg"
+          value={profile.company}
+          disabled
+        />
+        <Input
+          name="address"
+          label="Endereço:"
+          className="mb-1 max-w-lg"
+          value={profile.address}
+          disabled
+        />
+        <Input
+          name="enterprise"
+          label="Telefone:"
+          className="mb-1 max-w-lg"
+          value={Format.phone(profile.phone)}
+          disabled
+        />
+        <Input
+          name="whatsapp"
+          label="WhatsApp:"
+          className="mb-1 max-w-lg"
+          value={Format.phone(profile.whatsapp)}
+        />
+        <Input
+          name="email"
+          label="E-mail:"
+          className="mb-1 max-w-lg"
+          value={profile.email}
+          disabled
+        />
+        <Input
+          name="profile"
+          label="Perfil:"
+          className="mb-1 max-w-lg"
+          value={profile.profile}
+          disabled
+        />
+        <Input
+          name="user"
+          label="Usuário:"
+          className="mb-1 max-w-lg"
+          value={Format.name(profile.username)}
+          disabled
+        />
+      </Modal>
+
+      <Modal
+        open={openCreateModal}
+        setOpen={setOpenCreateModal}
+        type="title"
+        title="Cadastro de agentes financeiros"
+        confirmText="Cadastrar agente"
+      >
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Nome:"
+            name="name"
+            // value={profile.responsible_name}
+            // error={errors.responsible_name?.message}
+            // {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF:"
+            name="document"
+            // value={Format.document(profile.responsible_document)}
+            // error={errors.responsible_document?.message}
+            // {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="E-mail:"
+            name="email"
+            // value={profile.responsible_email}
+            // error={errors.responsible_email?.message}
+            // {...register('responsible_email')}
+          />
+
+          <Input
+            label="WhatsApp:"
+            name="whatsapp"
+            // value={profile.responsible_email}
+            // error={errors.responsible_email?.message}
+            // {...register('responsible_email')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Telefone:"
+            name="phone"
+            // value={profile.state}
+            // error={errors.responsible_city?.message}
+            // {...register('responsible_city')}
+          />
+
+          <Input
+            label="Função:"
+            name="purpose"
+            // value={profile.neighborhood}
+            // error={errors.responsible_neighborhood?.message}
+            // {...register('responsible_neighborhood')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Permissões:"
+            name="permissions"
+            // value={profile.zipCode}
+            // error={errors.responsible_zip_code?.message}
+            // {...register('responsible_zip_code')}
+          />
+
+          <Input
+            label="Nivel de acesso:"
+            name="access"
+            // value={profile.state}
+            // error={errors.responsible_state?.message}
+            // {...register('responsible_state')}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+        type="title"
+        title="Editar agentes financeiros"
+        confirmText="Salvar alterações"
+      >
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Nome:"
+            name="name"
+            // value={profile.responsible_name}
+            // error={errors.responsible_name?.message}
+            // {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF:"
+            name="document"
+            // value={Format.document(profile.responsible_document)}
+            // error={errors.responsible_document?.message}
+            // {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="E-mail:"
+            name="email"
+            // value={profile.responsible_email}
+            // error={errors.responsible_email?.message}
+            // {...register('responsible_email')}
+          />
+
+          <Input
+            label="WhatsApp:"
+            name="whatsapp"
+            // value={profile.responsible_email}
+            // error={errors.responsible_email?.message}
+            // {...register('responsible_email')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Telefone:"
+            name="phone"
+            // value={profile.state}
+            // error={errors.responsible_city?.message}
+            // {...register('responsible_city')}
+          />
+
+          <Input
+            label="Função:"
+            name="purpose"
+            // value={profile.neighborhood}
+            // error={errors.responsible_neighborhood?.message}
+            // {...register('responsible_neighborhood')}
+          />
+        </div>
+
+        <div className="mb-1 flex flex-1 gap-3">
+          <Input
+            label="Permissões:"
+            name="permissions"
+            // value={profile.zipCode}
+            // error={errors.responsible_zip_code?.message}
+            // {...register('responsible_zip_code')}
+          />
+
+          <Input
+            label="Nivel de acesso:"
+            name="access"
+            // value={profile.state}
+            // error={errors.responsible_state?.message}
+            // {...register('responsible_state')}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        type="danger"
+        title="Remover agente"
+        confirmText="Remover"
+      >
+        <p className="mb-2 text-zinc-900">
+          Este item será removido permanentemente e você não poderá vê-lo
+          novamente.
+        </p>
+        <p className="text-zinc-900">Tem certeza de que deseja continuar?</p>
+      </Modal>
+
       <div className="mt-10 rounded bg-white px-5 py-8 shadow">
         <h3 className="mb-3 text-xl font-semibold">Selecione um filtro:</h3>
 
         <SelectFilters
           options={[
-            // { id: 'document', name: 'CPF/CNPJ', hidden: 'CPF/CNPJ' },
-            // { id: 'date', name: 'Data', hidden: 'Data' },
             { id: 'name', name: 'Nome', hidden: 'Nome' },
             { id: 'email', name: 'E-mail', hidden: 'E-mail' },
           ]}
           selected={filter}
           onChange={setFilter}
         />
-
-        {/* {filter.id === 'date' && (
-          <Datepicker
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            className="ml-px max-w-[382px]"
-          />
-        )} */}
-
-        {/* {filter.id === 'document' && (
-          <Input
-            type="text"
-            label="CPF/CNPJ:"
-            placeholder="Digite o seu CPF/CNPJ..."
-            className="ml-px max-w-[382px]"
-            name="document"
-          />
-        )} */}
 
         {filter.id === 'name' && (
           <Input
@@ -116,10 +355,15 @@ export function Users() {
             Registro de Usuários Agentes
           </h1>
 
-          <button className="bg-green-base rounded p-3 shadow">
+          <button
+            type="button"
+            className="rounded bg-green-base p-3 shadow"
+            onClick={() => setOpenCreateModal(true)}
+          >
             <PlusIcon className="w-7 text-white" strokeWidth={3} />
           </button>
         </div>
+
         <table className="mt-3 min-w-full divide-y divide-gray-300 overflow-hidden rounded-t shadow">
           <thead className="bg-semi-gray">
             <tr>
@@ -178,13 +422,19 @@ export function Users() {
                   {Format.parseIso(person.createdAt)}
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenProfileModal(true)}
+                  >
                     <InformationCircleIcon className="w-6 text-dark-blue" />
                   </button>
-                  <button>
+                  <button type="button" onClick={() => setOpenEditModal(true)}>
                     <PencilSquareIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDeleteModal(true)}
+                  >
                     <TrashIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
                 </td>
@@ -194,6 +444,6 @@ export function Users() {
         </table>
       </div>
       <Pagination />
-    </div>
+    </>
   )
 }

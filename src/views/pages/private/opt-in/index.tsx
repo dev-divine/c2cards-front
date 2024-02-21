@@ -1,5 +1,5 @@
 import { useState } from 'react'
-// import { endOfMonth, startOfMonth, subHours } from 'date-fns'
+import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 
 import { SelectFilters, SelectProps } from '@views/components/select-filters'
 import { Input } from '@views/components/input'
@@ -9,13 +9,23 @@ import {
   CheckCircleIcon,
   DocumentMinusIcon,
   DocumentPlusIcon,
+  ExclamationTriangleIcon,
   PencilSquareIcon,
   TrashIcon,
   XCircleIcon,
 } from '@heroicons/react/24/outline'
 import { Format } from '@app/utils/format'
+import { useOptInController } from './use-opt-in-controller'
+import { Modal } from '@views/components/modal'
+import { InputPhone } from '@views/components/input-phone'
+import { DatePickerInput } from './components/date-picker-input'
+import { useNavigate } from 'react-router-dom'
 
 export function OptIn() {
+  const navigate = useNavigate()
+
+  const { register, errors } = useOptInController()
+
   const [filter, setFilter] = useState<SelectProps>({
     id: '',
     name: 'Selecione o tipo de filtro',
@@ -39,11 +49,194 @@ export function OptIn() {
     },
   ]
 
-  // const [startDate, setStartDate] = useState(startOfMonth(new Date()))
-  // const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
+  const optin = {
+    document: '298.608.778-74',
+    nome_empresa: 'Cesar Galvão',
+    nome_representante: 'Cesar',
+    cpf_representante: '298.608.778-74',
+    whatsapp_representante: '(11) 99999-9999',
+    email: 'cesardefranca@yahoo.com.br',
+    data_assinatura: '20.02.2024',
+    data_encerramento: '20.02.2025',
+    external_code: '12346516956',
+    b3_protocol: '1234fgre5efgez15656',
+  }
+
+  const [startDate, setStartDate] = useState(startOfMonth(new Date()))
+  const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
+
+  const [openCreateModal, setOpenCreateModal] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   return (
-    <div className="">
+    <>
+      <Modal
+        open={openCreateModal}
+        setOpen={setOpenCreateModal}
+        type="title"
+        title="Solicitar Opt-in"
+        confirmText="Solicitar opt-in"
+      >
+        {/* Input document com controller */}
+        <div className="mb-2 flex flex-1 gap-3">
+          <Input
+            label="Empresa:"
+            value={optin.nome_empresa}
+            error={errors.company?.message}
+            {...register('company')}
+          />
+
+          <Input
+            label="CPF/CNPJ:"
+            value={Format.document(optin.document)}
+            error={errors.document?.message}
+            {...register('document')}
+          />
+        </div>
+
+        {/* Input document com controller */}
+        <div className="mb-2 flex flex-1 gap-3">
+          <Input
+            label="Nome do representante:"
+            value={optin.nome_representante}
+            error={errors.responsible_name?.message}
+            {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF do representante:"
+            value={Format.document(optin.cpf_representante)}
+            error={errors.responsible_document?.message}
+            {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-2 flex flex-1 gap-3">
+          <InputPhone
+            label="WhatsApp do representante:"
+            value={Format.phone(optin.whatsapp_representante)}
+            error={errors.responsible_phone?.message}
+            {...register('responsible_phone')}
+          />
+
+          <Input
+            label="E-mail do representante:"
+            value={optin.email}
+            error={errors.responsible_email?.message}
+            {...register('responsible_email')}
+          />
+        </div>
+
+        <div className="mb-1 flex w-full flex-1 gap-3">
+          <div className="w-full">
+            <p className="block w-full text-sm font-medium leading-6 text-zinc-900">
+              Data inicial:
+            </p>
+            <DatePickerInput
+              value={startDate}
+              onChange={setStartDate}
+              className="w-full px-3 text-left"
+            />
+          </div>
+
+          <div className="w-full">
+            <p className="block w-full text-sm font-medium leading-6 text-zinc-900">
+              Data final:
+            </p>
+            <DatePickerInput
+              value={endDate}
+              onChange={setEndDate}
+              className="w-full px-3 text-left"
+            />
+            <div className="mt-1 flex items-center gap-1.5">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100">
+                <ExclamationTriangleIcon
+                  className="h-4 w-4 text-red-600"
+                  aria-hidden="true"
+                />
+              </div>
+              <p className="w-full text-xs text-red-700">
+                Data de encerramento precisa ser maior que a data de hoje!
+              </p>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        type="title"
+        title="Solicitar Opt-out"
+        confirmText="Solicitar opt-out"
+      >
+        {/* Input document com controller */}
+        <div className="mb-2 flex flex-1 gap-3">
+          <Input
+            label="Empresa:"
+            value={optin.nome_empresa}
+            error={errors.company?.message}
+            {...register('company')}
+          />
+
+          <Input
+            label="CPF/CNPJ:"
+            value={Format.document(optin.document)}
+            error={errors.document?.message}
+            {...register('document')}
+          />
+        </div>
+
+        {/* Input document com controller */}
+        <div className="mb-2 flex flex-1 gap-3">
+          <Input
+            label="Nome do representante:"
+            value={optin.nome_representante}
+            error={errors.responsible_name?.message}
+            {...register('responsible_name')}
+          />
+
+          <Input
+            label="CPF do representante:"
+            value={Format.document(optin.cpf_representante)}
+            error={errors.responsible_document?.message}
+            {...register('responsible_document')}
+          />
+        </div>
+
+        <div className="mb-2 flex flex-1 gap-3">
+          <InputPhone
+            label="WhatsApp do representante:"
+            value={Format.phone(optin.whatsapp_representante)}
+            error={errors.responsible_phone?.message}
+            {...register('responsible_phone')}
+          />
+
+          <Input
+            label="E-mail do representante:"
+            value={optin.email}
+            error={errors.responsible_email?.message}
+            {...register('responsible_email')}
+          />
+        </div>
+
+        <div className="mb-2 flex flex-1 gap-3">
+          <Input
+            label="Código externo:"
+            value={optin.email}
+            error={errors.external_code?.message}
+            {...register('external_code')}
+          />
+
+          <Input
+            label="Protocolo B3:"
+            value={optin.email}
+            error={errors.b3_protocol?.message}
+            {...register('b3_protocol')}
+          />
+        </div>
+      </Modal>
+
       <div className="mt-10 rounded bg-white px-5 py-8 shadow">
         <h3 className="mb-3 text-xl font-semibold">Selecione um filtro:</h3>
 
@@ -156,7 +349,7 @@ export function OptIn() {
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                   {person.status === 'success' ? (
                     <CheckCircleIcon
-                      className="text-green-hover w-7"
+                      className="w-7 text-green-hover"
                       strokeWidth={1.5}
                     />
                   ) : (
@@ -179,19 +372,35 @@ export function OptIn() {
                   {Format.parseIso(person.createdAt)}
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenCreateModal(true)}
+                  >
                     <PencilSquareIcon className="w-6 text-dark-blue" />
                   </button>
 
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDeleteModal(true)}
+                  >
                     <TrashIcon className="w-6 text-dark-blue" />
                   </button>
 
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigate('/opt_in_receipt', { state: 'opt-in' })
+                    }
+                  >
                     <DocumentPlusIcon className="w-6 text-dark-blue" />
                   </button>
 
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigate('/opt_in_receipt', { state: 'opt-out' })
+                    }
+                  >
                     <DocumentMinusIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
                 </td>
@@ -201,6 +410,6 @@ export function OptIn() {
         </table>
       </div>
       <Pagination />
-    </div>
+    </>
   )
 }

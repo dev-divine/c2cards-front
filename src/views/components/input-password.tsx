@@ -49,9 +49,9 @@ export const InputPassword = forwardRef<HTMLInputElement, Props>(
             }}
           >
             {isPasswordVisible === 'password' ? (
-              <EyeIcon className="mx-3 my-2.5 h-8 w-8 text-primary" />
+              <EyeIcon className="text-primary mx-3 my-2.5 h-8 w-8" />
             ) : (
-              <EyeSlashIcon className="mx-3 my-2.5 h-8 w-8 text-primary" />
+              <EyeSlashIcon className="text-primary mx-3 my-2.5 h-8 w-8" />
             )}
           </span>
         </div>

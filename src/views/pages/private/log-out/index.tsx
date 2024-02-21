@@ -1,3 +1,13 @@
+import { useEffect } from 'react'
+
+import { useAuth } from '@app/hooks/use-auth'
+
 export function LogOut() {
-  return <h1>LogOut</h1>
+  const { signOut } = useAuth()
+
+  useEffect(() => {
+    signOut()
+  })
+
+  return null
 }

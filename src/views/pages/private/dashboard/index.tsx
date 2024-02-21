@@ -4,10 +4,13 @@ import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 import { DashboardBanner } from '@views/pages/private/dashboard/components/dashboard-banner'
 import { DashboardCard } from '@views/pages/private/dashboard/components/dashboard-card'
 import { Datepicker } from '@views/components/date-picker'
+// import { useDashboardController } from './use-dashboard-controller'
 
 // import 'react-datepicker/dist/react-datepicker.css'
 
 export function Dashboard() {
+  // const {} = useDashboardController()
+
   const user = 'Ana'
   const qntdEC = 0
 
@@ -41,10 +44,10 @@ export function Dashboard() {
         <DashboardCard
           title="Qntd. - E.C."
           amount={qntdEC}
-          link="/ec-clients"
+          link="/ec_clients"
         />
 
-        <DashboardCard title="Qntd. - OPT-In" amount={qntdEC} link="/opt-in" />
+        <DashboardCard title="Qntd. - OPT-In" amount={qntdEC} link="/opt_in" />
 
         <DashboardCard title="Valor agendas" amount={qntdEC} link="/agenda" />
 

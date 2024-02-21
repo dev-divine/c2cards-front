@@ -8,7 +8,7 @@ import { InputPhone } from '@views/components/input-phone'
 import { useProfileController } from '@views/pages/private/profile/use-profile-controller'
 
 export function Profile() {
-  const { register, errors, control } = useProfileController()
+  const { control } = useProfileController()
   return (
     <div className="flex h-full flex-col justify-between p-12 pt-10">
       <h1 className="text-4xl font-bold text-dark-blue">Configurações</h1>

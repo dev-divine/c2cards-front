@@ -1,12 +1,8 @@
-import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import toast from 'react-hot-toast'
 
 export function useSignUpController() {
-  const navigate = useNavigate()
-
   const isPending = false
 
   const schema = z.object({
@@ -21,7 +17,6 @@ export function useSignUpController() {
     register,
     formState: { errors },
     control,
-    handleSubmit: hookFormHandleSubmit,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
@@ -31,6 +26,5 @@ export function useSignUpController() {
     control,
     isPending,
     register,
-    handleSubmit,
   }
 }
