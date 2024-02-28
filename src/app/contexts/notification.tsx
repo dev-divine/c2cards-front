@@ -3,6 +3,7 @@ import { XMarkIcon } from '@heroicons/react/20/solid'
 import { Fragment, ReactNode, createContext, useState } from 'react'
 
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { isAxiosError } from 'axios'
 
 export type Notification = {
   type: 'error' | 'warning' | 'success' | 'info'
@@ -10,10 +11,28 @@ export type Notification = {
   message: string
 }
 
+export interface SuccessToast {
+  title: string
+  message: string
+}
+
+export interface ErrorToast {
+  title: string
+  message: string
+  error?: unknown
+}
+
+interface ResponseError {
+  code: string
+  error: string
+  message: string
+  data: unknown
+}
+
 type NotificationContextData = {
-  isShow: boolean
-  hidden: () => void
-  showNotification: (data: Notification) => void
+  parseError: (err: unknown) => ResponseError
+  successToast: ({ title, message }: SuccessToast) => void
+  errorToast: ({ title, message, error }: ErrorToast) => void
 }
 
 type AuthProviderProps = {
@@ -39,12 +58,61 @@ export function NotificationProvider({ children }: AuthProviderProps) {
       title: data.title,
       message: data.message,
     })
+
     setShow(true)
+  }
+
+  function successToast({ title, message }: SuccessToast) {
+    showNotification({
+      type: 'success',
+      title,
+      message,
+    })
+
+    setTimeout(() => {
+      hidden()
+    }, 3000)
+  }
+
+  function errorToast({ title, message, error }: ErrorToast) {
+    showNotification({
+      type: 'error',
+      title,
+      message,
+    })
+
+    console.error(error)
+
+    setTimeout(() => {
+      hidden()
+    }, 2000)
+  }
+
+  function parseError(err: unknown): ResponseError {
+    if (isAxiosError(err)) {
+      return {
+        code: err?.response?.data?.code,
+        error: err?.response?.data?.error,
+        message: err?.response?.data?.message,
+        data: [],
+      }
+    }
+
+    return {
+      code: '',
+      error: '',
+      message: '',
+      data: [],
+    }
   }
 
   return (
     <NotificationContext.Provider
-      value={{ showNotification, isShow: show, hidden }}
+      value={{
+        parseError,
+        successToast,
+        errorToast,
+      }}
     >
       {children}
 
@@ -67,7 +135,7 @@ export function NotificationProvider({ children }: AuthProviderProps) {
               className={`pointer-events-auto w-full max-w-sm overflow-hidden rounded bg-white  shadow-lg ring-1 ring-black ring-opacity-5`}
             >
               <div className="p-4">
-                <div className="flex items-start">
+                <div className="flex items-center">
                   <div className="flex-shrink-0">
                     {notification.type === 'success' && (
                       <CheckCircleIcon
@@ -99,7 +167,7 @@ export function NotificationProvider({ children }: AuthProviderProps) {
                         setShow(false)
                       }}
                     >
-                      <span className="sr-only">Close</span>
+                      <span className="sr-only">Fechar</span>
                       <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>

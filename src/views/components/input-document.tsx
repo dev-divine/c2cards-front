@@ -21,7 +21,7 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
     const inputId = id ?? name
 
     return (
-      <div className="flex flex-col">
+      <div className="flex w-full flex-col">
         <label
           htmlFor={inputId}
           className="block text-sm font-medium leading-6 text-zinc-900"
@@ -31,7 +31,7 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
 
         <Controller
           control={control}
-          name="document"
+          name={inputId}
           defaultValue=""
           render={({ field: { value, onChange } }) => (
             <CpfCnpj
@@ -43,7 +43,7 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
               id={inputId}
               ref={ref}
               className={cn(
-                'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-0 focus:ring-inset sm:text-sm sm:leading-6',
+                'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow placeholder:text-zinc-400 focus:border-green-hover focus:ring-0 sm:text-sm sm:leading-6',
                 error && '!border-red-600',
                 className,
               )}
