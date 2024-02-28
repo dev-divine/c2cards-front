@@ -1,5 +1,10 @@
-import { usersService } from '../services/users-service'
-import { createContext, useCallback, useState, useEffect } from 'react'
+import {
+  createContext,
+  useCallback,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react'
 
 const localStoragesKeys = {
   ACCESS_TOKEN: 'accessToken', // Ensure you have the correct key here
@@ -13,7 +18,7 @@ interface AuthContextValue {
 
 export const AuthContext = createContext({} as AuthContextValue)
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [signedIn, setSignedIn] = useState<boolean>(() => {
     const storedAccessToken = localStorage.getItem(
       localStoragesKeys.ACCESS_TOKEN,
@@ -21,11 +26,7 @@ export function AuthProvider({ children }) {
     return !!storedAccessToken
   })
 
-  const { isError } = useQuery({
-    queryKey: ['auth', 'accounts', 'me'],
-    queryFn: async () => usersService.me(),
-    enabled: signedIn,
-  })
+  const isError = false
 
   const signIn = useCallback((accessToken: string) => {
     localStorage.setItem(localStoragesKeys.ACCESS_TOKEN, accessToken)

@@ -11,6 +11,8 @@ import {
 
 import { faqs, footerNavigation } from './data/home'
 
+import logo from './assets/logo.png'
+
 export function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 

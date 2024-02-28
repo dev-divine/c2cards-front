@@ -12,9 +12,9 @@ import { SelectProps } from '@views/components/select-filters'
 
 import { CreateModal } from '@views/pages/private/ec-clients/components/create-modal'
 import { Filter } from '@views/pages/private/ec-clients/components/filter'
-import { ShowClientModal } from '@views/pages/private/ec-clients/components/show-profile-modal'
-import { RemoveModal } from '@views/pages/private/ec-clients/components/remove-modal'
-import { EditModal } from '@views/pages/private/ec-clients/components/edit-modal'
+// import { ShowClientModal } from '@views/pages/private/ec-clients/components/show-profile-modal'
+// import { RemoveModal } from '@views/pages/private/ec-clients/components/remove-modal'
+// import { EditModal } from '@views/pages/private/ec-clients/components/edit-modal'
 import { TableTitle } from '@views/pages/private/ec-clients/components/table-title'
 
 import {
@@ -36,6 +36,8 @@ export function ECClients() {
   // const [openEditModal, setOpenEditModal] = useState(false)
   // const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [item, setItem] = useState({} as IECClient)
+
+  console.log(item)
 
   return (
     <div>
@@ -136,7 +138,7 @@ export function ECClients() {
                       type="button"
                       onClick={() => {
                         setItem(eCClient)
-                        setOpenProfileModal(true)
+                        // setOpenProfileModal(true)
                       }}
                     >
                       <InformationCircleIcon className="w-6 text-dark-blue" />
@@ -146,7 +148,7 @@ export function ECClients() {
                       type="button"
                       onClick={() => {
                         setItem(eCClient)
-                        setOpenEditModal(true)
+                        // setOpenEditModal(true)
                       }}
                     >
                       <PencilSquareIcon className="ml-1 w-6 text-dark-blue" />
@@ -156,7 +158,7 @@ export function ECClients() {
                       type="button"
                       onClick={() => {
                         setItem(eCClient)
-                        setOpenDeleteModal(true)
+                        // setOpenDeleteModal(true)
                       }}
                     >
                       <TrashIcon className="ml-1 w-6 text-dark-blue" />

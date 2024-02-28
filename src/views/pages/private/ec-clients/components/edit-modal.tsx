@@ -31,7 +31,7 @@ export function EditModal({ open, setOpen, item }: Props) {
     register,
     handleSubmit,
     setLoading,
-    loadECClients,
+    // loadECClients,
   } = useEcClientsController()
 
   const handleEdit = handleSubmit(async (data: FormData) => {
