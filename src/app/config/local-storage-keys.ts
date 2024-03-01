@@ -1,3 +1,4 @@
-export const localStoragesKeys = {
-  ACCESS_TOKEN: '@secretaria-de-esportes:access-token',
+export const localStorageKeys = {
+  ACCESS_TOKEN: '@c2-cards:access-token',
+  KEY_USER: '@c2-cards:user',
 }
