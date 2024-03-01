@@ -1,37 +1,37 @@
-import { Format } from "@app/utils/format";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { Pagination } from "@views/components/pagination";
+import { Format } from '@app/utils/format'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { Pagination } from '@views/components/pagination'
 
 export function OptInReceipt() {
   const optIn = [
     {
-      company_name: "Cesar Galvão",
-      cpf: "29860877874",
-      signature_date: "18/07/2023",
-      expiration_date: "31/12/2023",
-      process_protocol: "P2023071800233272",
-      b3_protocol: "B3-2023071800245451",
-      c2_cards_protocol: "298603434TFPDRR",
-      optin_active: "no",
+      company_name: 'Cesar Galvão',
+      cpf: '29860877874',
+      signature_date: '18/07/2023',
+      expiration_date: '31/12/2023',
+      process_protocol: 'P2023071800233272',
+      b3_protocol: 'B3-2023071800245451',
+      c2_cards_protocol: '298603434TFPDRR',
+      optin_active: 'no',
     },
     {
-      company_name: "Cesar Galvão",
-      cpf: "29860877874",
-      signature_date: "18/07/2023",
-      expiration_date: "31/12/2023",
-      process_protocol: "P2023071800233272",
-      b3_protocol: "B3-2023071800245451",
-      c2_cards_protocol: "298603434TFPDRR",
-      optin_active: "no",
+      company_name: 'Cesar Galvão',
+      cpf: '29860877874',
+      signature_date: '18/07/2023',
+      expiration_date: '31/12/2023',
+      process_protocol: 'P2023071800233272',
+      b3_protocol: 'B3-2023071800245451',
+      c2_cards_protocol: '298603434TFPDRR',
+      optin_active: 'no',
     },
-  ];
+  ]
 
-  const userName = "Cesar Galvão";
-  const totalCompleted = 2;
+  const userName = 'Cesar Galvão'
+  const totalCompleted = 2
 
   return (
     <>
-      <div className="flex-1 rounded bg-white px-5 pb-8 shadow-md">
+      <div className="mt-10 rounded bg-white px-5 pb-8 pt-6 shadow-md">
         <h1 className="mb-4 text-2xl font-bold text-dark-blue">
           Comprovantes opt-in: {userName}
         </h1>
@@ -113,7 +113,7 @@ export function OptInReceipt() {
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {optin.optin_active === "active" ? (
+                    {optin.optin_active === 'active' ? (
                       <CheckCircleIcon
                         className="w-7 text-green-hover"
                         strokeWidth={1.5}
@@ -131,6 +131,8 @@ export function OptInReceipt() {
           </table>
         </div>
       </div>
+
+      <Pagination />
     </>
-  );
+  )
 }

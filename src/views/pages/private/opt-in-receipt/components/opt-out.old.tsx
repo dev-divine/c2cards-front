@@ -1,32 +1,32 @@
-import { Format } from "@app/utils/format";
-import { Pagination } from "@views/components/pagination";
+import { Format } from '@app/utils/format'
+import { Pagination } from '@views/components/pagination'
 
 export function OptOutReceipt() {
-  const userName = "Cesar Galvão";
-  const totalCompleted = 2;
+  const userName = 'Cesar Galvão'
+  const totalCompleted = 2
 
   const optOut = [
     {
-      company_name: "Vini Cell",
-      cpf: "23850275850",
-      processing_date: "2024-02-01T16:33:40.111-03:00",
-      c2_cards_protocol: "23850FS8LECKQAZ",
-      process_protocol: "P2024020107930312",
-      b3_protocol: "B3-2024020108150396",
+      company_name: 'Vini Cell',
+      cpf: '23850275850',
+      processing_date: '2024-02-01T16:33:40.111-03:00',
+      c2_cards_protocol: '23850FS8LECKQAZ',
+      process_protocol: 'P2024020107930312',
+      b3_protocol: 'B3-2024020108150396',
     },
     {
-      company_name: "Vini Cell",
-      cpf: "23850275850",
-      processing_date: "2024-02-01T16:33:40.111-03:00",
-      c2_cards_protocol: "23850FS8LECKQAZ",
-      process_protocol: "P2024020107930312",
-      b3_protocol: "B3-2024020108150396",
+      company_name: 'Vini Cell',
+      cpf: '23850275850',
+      processing_date: '2024-02-01T16:33:40.111-03:00',
+      c2_cards_protocol: '23850FS8LECKQAZ',
+      process_protocol: 'P2024020107930312',
+      b3_protocol: 'B3-2024020108150396',
     },
-  ];
+  ]
 
   return (
     <>
-      <div className="flex-1 rounded bg-white px-5 pb-8 shadow-md">
+      <div className="mt-10 rounded bg-white px-5 pb-8 pt-6 shadow-md">
         <h1 className="mb-4 text-2xl font-bold text-dark-blue">
           Comprovantes opt-out: {userName}
         </h1>
@@ -105,6 +105,8 @@ export function OptOutReceipt() {
           </table>
         </div>
       </div>
+
+      <Pagination />
     </>
-  );
+  )
 }
