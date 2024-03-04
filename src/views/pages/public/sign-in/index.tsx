@@ -7,16 +7,18 @@ import { useSignInController } from './use-sign-in-controller'
 import { EyeIcon } from '@/assets/icons/eye-icon'
 import { EyeSlashIcon } from '@/assets/icons/eye-slash-icon'
 import { cn } from '@app/utils/cn'
-import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/20/solid'
+import { EnvelopeIcon, LockClosedIcon, XCircleIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
 
 export function SignIn() {
-  const { control, handleSubmit, isPending } = useSignInController()
+  const { control, handleSubmit, isPending, errors } = useSignInController()
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<
     'password' | 'text'
   >('password')
 
+
+ 
   return (
     <div className="max-w-2xl items-center">
       <h1 className="pb-4 pl-3 text-2xl">Bem-vindo(a) a</h1>
@@ -37,24 +39,25 @@ export function SignIn() {
           <div className="flex flex-1 flex-col">
             <Controller
               control={control}
-              name="email"
+              name="document"
               defaultValue=""
               render={({ field: { value, onChange } }) => (
                 <CpfCnpj
+                 
                   value={value}
                   onChange={onChange}
                   type="text"
-                  placeholder="exemplo@gmail.com"
+                  placeholder="Documento"
                   id="email-login"
                   className={cn(
                     'h-[52px] w-full rounded-r border border-main-text bg-white px-3 text-main-text shadow outline-none',
-                    // errors && '!border-red-600',
+                     errors && '!border-red-600',
                   )}
                 />
               )}
             />
 
-            {/* {error && (
+            {/* {errors && (
               <div className="mt-2 flex items-center gap-1.5 text-red-600">
                 <XCircleIcon className="h-5" />
                 <span className="text-xs">{error}</span>
@@ -76,16 +79,24 @@ export function SignIn() {
             </label>
 
             <div className="relative">
+              <Controller
+              control={control}
+              name="password"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
               <input
                 type={isPasswordVisible}
-                name="password"
+                value={value}
                 id="password-login"
                 placeholder="Senha"
+                onChange={onChange}
                 className={cn(
                   'h-[52px] w-full rounded-r border border-main-text bg-white px-3 text-main-text shadow outline-none',
                   // errors && '!border-red-600',
                 )}
               />
+            )}
+            />
               <span
                 className="absolute right-0 cursor-pointer"
                 onClick={() => {
@@ -115,9 +126,6 @@ export function SignIn() {
             Esqueceu sua senha?
           </p>
         </Link>
-      </form>
-
-      <div className="px-3">
         <Button
           form="login"
           type="submit"
@@ -126,6 +134,9 @@ export function SignIn() {
         >
           Entrar
         </Button>
+      </form>
+
+      <div className="px-3">
 
         <p className="px-3 text-center text-main-text">
           Ainda não tem uma conta?

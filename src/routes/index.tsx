@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-// import { AuthGuard } from '@/routes/auth-guard'
+import { AuthGuard } from '@/routes/auth-guard'
 
 // Public Routes
 import { ForgotPassword } from "@views/pages/public/forgot-password";
@@ -25,9 +25,13 @@ import { ScheduleReceipt } from "@views/pages/private/schedule-receipt";
 
 export function AppRoutes() {
   return (
+    
+    
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
+        {/* Private Routes */}  
+        
+       <Route element={<AuthGuard isPrivate/>}>
         <Route element={<PrivateLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/ec_clients" element={<ECClients />} />
@@ -40,16 +44,19 @@ export function AppRoutes() {
           <Route path="/opt_in_receipt" element={<Receipt />} />
           <Route path="/schedule_receipt" element={<ScheduleReceipt />} />
         </Route>
+       </Route>
+        
 
+        {/* Public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
-
         {/* Not Found */}
         <Route path="*" element={<NotFound />} />
+   
       </Routes>
     </BrowserRouter>
   );

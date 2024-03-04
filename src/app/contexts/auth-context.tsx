@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import {
   ReactNode,
   createContext,
@@ -126,5 +126,5 @@ export function AuthProvider({ children }: Props) {
       <LaunchScreen isLoading={loading} />
       {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }
