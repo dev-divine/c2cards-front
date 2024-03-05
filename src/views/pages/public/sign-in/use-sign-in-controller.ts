@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { useAuth } from '@app/hooks/use-auth'
+import { httpClient } from '@app/services/http-client'
 
 export function useSignInController() {
   const navigate = useNavigate()
@@ -11,8 +12,10 @@ export function useSignInController() {
   const isPending = false
 
   const schema = z.object({
+    document: z.string().min(1, 'CPF é obrigatório'),
+    password: z.string().min(1, 'Senha é obrigatória'),
+    /*  email: z.string().email('E-mail inválido'),
     name: z.string().min(1, 'O nome é obrigatório'),
-    email: z.string().email('E-mail inválido'),
     birthdate: z.string().min(1, 'A data de nascimento é obrigatória'),
     phone: z.string().min(1, 'O telefone é obrigatório'),
     cpf: z.string().min(1, 'CPF é obrigatório'),
@@ -34,7 +37,7 @@ export function useSignInController() {
       .min(1, 'Telefone do responsável é obrigatório'),
     responsibleCpf: z.string().min(1, 'CPF do responsável é obrigatório'),
     responsibleRg: z.string().min(1, 'RG do responsável é obrigatório'),
-    imageRelease: z.enum(['yes', 'no']).optional(),
+    imageRelease: z.enum(['yes', 'no']).optional(), */
   })
   const { signIn } = useAuth()
 
@@ -50,15 +53,18 @@ export function useSignInController() {
   })
 
   const handleSubmit = hookFormHandleSubmit(async (data) => {
+    
+      
     try {
+
+    console.warn(data)
       // requisição back
-
-      signIn('token')
-
-      toast.success('Login realizado com sucesso')
-      navigate('/home')
-      // const { access_token: accessToken } = await mutateAsync(data)
-      // signIn(accessToken)
+      const response = await httpClient.post('/auth/sessions', data)
+        const { accessToken: accessToken } = response.data
+        console.warn(accessToken)
+        signIn(accessToken)
+        navigate('/')
+    
     } catch (error) {
       console.error(error, data)
       toast.error('Erro ao realizar login')

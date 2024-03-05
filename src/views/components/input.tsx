@@ -3,7 +3,7 @@ import { ComponentProps, forwardRef } from 'react'
 import { cn } from '@app/utils/cn'
 
 interface Props extends ComponentProps<'input'> {
-  name: string
+  name?: string
   label: string
   error?: string
 }

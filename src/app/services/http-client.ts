@@ -10,7 +10,7 @@ export const httpClient = axios.create({
 
 httpClient.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem(localStorageKeys.ACCESS_TOKEN)
-
+  console.log('accessToken', accessToken)
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`
   }

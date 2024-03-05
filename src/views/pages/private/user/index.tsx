@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 
 // import { Datepicker } from '@views/components/date-picker'
@@ -14,32 +14,53 @@ import { Input } from '@views/components/input'
 import { Modal } from '@views/components/modal'
 import { Pagination } from '@views/components/pagination'
 import { SelectFilters, SelectProps } from '@views/components/select-filters'
-
+import { httpClient } from '@app/services/http-client'
+import { Form } from 'react-router-dom'
+import {useUserController}  from './user-controller'
+import { Controller } from 'react-hook-form'
 export function Users() {
+
+  const { register, errors, control, handleCreateUser } = useUserController()
+
+  const [userData, setUserData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+   
+ const fetchUserData = async () => {
+    try {
+      
+     /*  setLoading(true); */
+      const response = await httpClient.get('/user'); 
+      /* if (!response.ok) {
+        throw new Error('Erro ao carregar dados do usuário');
+      } */
+      const data = await response.data.users
+      setUserData(data);
+      setError(null);
+    } catch (error:any) {
+      alert(error.response.data.message)
+       
+    } finally {
+      setLoading(false);
+    }
+  };
+
+const handleSubmit = async () => {
+
+  await handleCreateUser()
+  fetchUserData(); 
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+ 
   const [filter, setFilter] = useState<SelectProps>({
     id: '',
     name: 'Selecione o tipo de filtro',
     hidden: 'Selecione o tipo de filtro',
   })
 
-  const people = [
-    {
-      status: 'success',
-      document: '12345678900',
-      name: 'Lindsay Walton',
-      phone: '+5511999999999',
-      email: 'lindsay.walton@example.com',
-      createdAt: new Date('2023-05-19').toISOString(),
-    },
-    {
-      status: 'error',
-      document: '12345678900',
-      name: 'Lindsay Walton Paula',
-      phone: '+5531988888888',
-      email: 'lindsay.walton@example.com',
-      createdAt: new Date('2024-01-15').toISOString(),
-    },
-  ]
 
   const profile = {
     document: '29860877874',
@@ -137,83 +158,149 @@ export function Users() {
       </Modal>
 
       <Modal
+        action={handleSubmit}
         open={openCreateModal}
         setOpen={setOpenCreateModal}
         type="title"
         title="Cadastro de agentes financeiros"
         confirmText="Cadastrar agente"
       >
+       
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Nome:"
-            name="name"
-            // value={profile.responsible_name}
-            // error={errors.responsible_name?.message}
-            // {...register('responsible_name')}
-          />
+          <Controller
+              control={control}
+              name="name"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Nome:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.name?.message}
+                />
+              )}
+            />
 
-          <Input
-            label="CPF:"
-            name="document"
-            // value={Format.document(profile.responsible_document)}
-            // error={errors.responsible_document?.message}
-            // {...register('responsible_document')}
-          />
+          <Controller
+              control={control}
+              name="document"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="CPF:"
+                  value={value}
+                  onChange={onChange}
+                 error={errors.document?.message}
+                />
+              )}
+            />
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="E-mail:"
-            name="email"
-            // value={profile.responsible_email}
-            // error={errors.responsible_email?.message}
-            // {...register('responsible_email')}
+          <Controller
+              control={control}
+              name="email"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+              <Input
+                label="E-mail:"
+                name="email"
+                value={value}
+                onChange={onChange}
+                error={errors.email?.message}
+              />
+          )}
           />
-
-          <Input
-            label="WhatsApp:"
-            name="whatsapp"
-            // value={profile.responsible_email}
-            // error={errors.responsible_email?.message}
-            // {...register('responsible_email')}
-          />
+          
+          <Controller
+              control={control}
+              name="whatsapp"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="WhatsApp:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.whatsapp?.message}
+                />
+              )}
+            />
+          
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Telefone:"
-            name="phone"
-            // value={profile.state}
-            // error={errors.responsible_city?.message}
-            // {...register('responsible_city')}
-          />
+          <Controller
+              control={control}
+              name="phone"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Telefone:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.phone?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="job"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Função:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.job?.message}
+                />
+              )}
+            />
 
-          <Input
-            label="Função:"
-            name="purpose"
-            // value={profile.neighborhood}
-            // error={errors.responsible_neighborhood?.message}
-            // {...register('responsible_neighborhood')}
-          />
+          
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Permissões:"
-            name="permissions"
-            // value={profile.zipCode}
-            // error={errors.responsible_zip_code?.message}
-            // {...register('responsible_zip_code')}
-          />
-
-          <Input
-            label="Nivel de acesso:"
-            name="access"
-            // value={profile.state}
-            // error={errors.responsible_state?.message}
-            // {...register('responsible_state')}
-          />
+          <Controller
+              control={control}
+              name="role"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Permissões:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.role?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="accessLevel"
+              defaultValue="AGENTE_FINANCEIRO"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Nivel de acesso:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.accessLevel?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="password"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Senha Temporaria:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.password?.message}
+                />
+              )}
+            />
         </div>
+       
       </Modal>
 
       <Modal
@@ -404,10 +491,10 @@ export function Users() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {people.map((person) => (
+            {userData.map((person) => (
               <tr key={person.email}>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {Format.document(person.document)}
+                  {person.document}
                 </td>
 
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

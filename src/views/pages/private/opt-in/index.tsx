@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { endOfMonth, startOfMonth, subHours } from 'date-fns'
+import { useState } from "react";
+import { endOfMonth, startOfMonth, subHours } from "date-fns";
 
-import { SelectFilters, SelectProps } from '@views/components/select-filters'
-import { Input } from '@views/components/input'
-import { Button } from '@views/components/button'
-import { Pagination } from '@views/components/pagination'
+import { SelectFilters, SelectProps } from "@views/components/select-filters";
+import { Input } from "@views/components/input";
+import { Button } from "@views/components/button";
+import { Pagination } from "@views/components/pagination";
 import {
   CheckCircleIcon,
   DocumentMinusIcon,
@@ -13,60 +13,65 @@ import {
   PencilSquareIcon,
   TrashIcon,
   XCircleIcon,
-} from '@heroicons/react/24/outline'
-import { Format } from '@app/utils/format'
-import { useOptInController } from './use-opt-in-controller'
-import { Modal } from '@views/components/modal'
-import { InputPhone } from '@views/components/input-phone'
-import { DatePickerInput } from './components/date-picker-input'
-import { useNavigate } from 'react-router-dom'
+} from "@heroicons/react/24/outline";
+import { Format } from "@app/utils/format";
+import { useOptInController } from "./use-opt-in-controller";
+import { Modal } from "@views/components/modal";
+import { InputPhone } from "@views/components/input-phone";
+import { DatePickerInput } from "./components/date-picker-input";
+import { useNavigate } from "react-router-dom";
+import { ModalContent } from "@views/components/ModalContent";
+import { OptInReceipt } from "../opt-in-receipt/components/opt-in";
+import { OptOutReceipt } from "../opt-in-receipt/components/opt-out";
 
 export function OptIn() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { register, errors } = useOptInController()
+  const { register, errors } = useOptInController();
 
   const [filter, setFilter] = useState<SelectProps>({
-    id: '',
-    name: 'Selecione o tipo de filtro',
-    hidden: 'Selecione o tipo de filtro',
-  })
+    id: "",
+    name: "Selecione o tipo de filtro",
+    hidden: "Selecione o tipo de filtro",
+  });
 
   const people = [
     {
-      status: 'success',
-      document: '12345678900',
-      name: 'Lindsay Walton',
-      email: 'lindsay.walton@example.com',
-      createdAt: new Date('2023-05-19').toISOString(),
+      status: "success",
+      document: "12345678900",
+      name: "Lindsay Walton",
+      email: "lindsay.walton@example.com",
+      createdAt: new Date("2023-05-19").toISOString(),
     },
     {
-      status: 'error',
-      document: '12345678900',
-      name: 'Lindsay Walton Paula',
-      email: 'lindsay.walton@example.com',
-      createdAt: new Date('2024-01-15').toISOString(),
+      status: "error",
+      document: "12345678900",
+      name: "Lindsay Walton Paula",
+      email: "lindsay.walton@example.com",
+      createdAt: new Date("2024-01-15").toISOString(),
     },
-  ]
+  ];
 
   const optin = {
-    document: '298.608.778-74',
-    nome_empresa: 'Cesar Galvão',
-    nome_representante: 'Cesar',
-    cpf_representante: '298.608.778-74',
-    whatsapp_representante: '(11) 99999-9999',
-    email: 'cesardefranca@yahoo.com.br',
-    data_assinatura: '20.02.2024',
-    data_encerramento: '20.02.2025',
-    external_code: '12346516956',
-    b3_protocol: '1234fgre5efgez15656',
-  }
+    document: "298.608.778-74",
+    nome_empresa: "Cesar Galvão",
+    nome_representante: "Cesar",
+    cpf_representante: "298.608.778-74",
+    whatsapp_representante: "(11) 99999-9999",
+    email: "cesardefranca@yahoo.com.br",
+    data_assinatura: "20.02.2024",
+    data_encerramento: "20.02.2025",
+    external_code: "12346516956",
+    b3_protocol: "1234fgre5efgez15656",
+  };
 
-  const [startDate, setStartDate] = useState(startOfMonth(new Date()))
-  const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
+  const [startDate, setStartDate] = useState(startOfMonth(new Date()));
+  const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3));
 
-  const [openCreateModal, setOpenCreateModal] = useState(false)
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openReceiptOptInModal, setOpenReceiptOptInModal] = useState(false);
+  const [openReceiptOptOutModal, setOpenReceiptOptOutModal] = useState(false);
 
   return (
     <>
@@ -83,14 +88,14 @@ export function OptIn() {
             label="Empresa:"
             value={optin.nome_empresa}
             error={errors.company?.message}
-            {...register('company')}
+            {...register("company")}
           />
 
           <Input
             label="CPF/CNPJ:"
             value={Format.document(optin.document)}
             error={errors.document?.message}
-            {...register('document')}
+            {...register("document")}
           />
         </div>
 
@@ -100,14 +105,14 @@ export function OptIn() {
             label="Nome do representante:"
             value={optin.nome_representante}
             error={errors.responsible_name?.message}
-            {...register('responsible_name')}
+            {...register("responsible_name")}
           />
 
           <Input
             label="CPF do representante:"
             value={Format.document(optin.cpf_representante)}
             error={errors.responsible_document?.message}
-            {...register('responsible_document')}
+            {...register("responsible_document")}
           />
         </div>
 
@@ -116,14 +121,14 @@ export function OptIn() {
             label="WhatsApp do representante:"
             value={Format.phone(optin.whatsapp_representante)}
             error={errors.responsible_phone?.message}
-            {...register('responsible_phone')}
+            {...register("responsible_phone")}
           />
 
           <Input
             label="E-mail do representante:"
             value={optin.email}
             error={errors.responsible_email?.message}
-            {...register('responsible_email')}
+            {...register("responsible_email")}
           />
         </div>
 
@@ -176,14 +181,14 @@ export function OptIn() {
             label="Empresa:"
             value={optin.nome_empresa}
             error={errors.company?.message}
-            {...register('company')}
+            {...register("company")}
           />
 
           <Input
             label="CPF/CNPJ:"
             value={Format.document(optin.document)}
             error={errors.document?.message}
-            {...register('document')}
+            {...register("document")}
           />
         </div>
 
@@ -193,14 +198,14 @@ export function OptIn() {
             label="Nome do representante:"
             value={optin.nome_representante}
             error={errors.responsible_name?.message}
-            {...register('responsible_name')}
+            {...register("responsible_name")}
           />
 
           <Input
             label="CPF do representante:"
             value={Format.document(optin.cpf_representante)}
             error={errors.responsible_document?.message}
-            {...register('responsible_document')}
+            {...register("responsible_document")}
           />
         </div>
 
@@ -209,14 +214,14 @@ export function OptIn() {
             label="WhatsApp do representante:"
             value={Format.phone(optin.whatsapp_representante)}
             error={errors.responsible_phone?.message}
-            {...register('responsible_phone')}
+            {...register("responsible_phone")}
           />
 
           <Input
             label="E-mail do representante:"
             value={optin.email}
             error={errors.responsible_email?.message}
-            {...register('responsible_email')}
+            {...register("responsible_email")}
           />
         </div>
 
@@ -225,27 +230,62 @@ export function OptIn() {
             label="Código externo:"
             value={optin.email}
             error={errors.external_code?.message}
-            {...register('external_code')}
+            {...register("external_code")}
           />
 
           <Input
             label="Protocolo B3:"
             value={optin.email}
             error={errors.b3_protocol?.message}
-            {...register('b3_protocol')}
+            {...register("b3_protocol")}
           />
         </div>
       </Modal>
+      {/* Optin Modal */}
+      <ModalContent.Root
+        className="max-w-5xl"
+        open={openReceiptOptInModal}
+        setOpen={() => {
+          setOpenReceiptOptInModal(true);
+        }}
+      >
+        <ModalContent.Header
+          actionCloseButton={() => {
+            setOpenReceiptOptInModal(false);
+          }}
+        />
+        <ModalContent.Body>
+          <OptInReceipt />
+        </ModalContent.Body>
+      </ModalContent.Root>
+
+      {/* OptOut Modal */}
+      <ModalContent.Root
+        className="max-w-5xl"
+        open={openReceiptOptOutModal}
+        setOpen={() => {
+          setOpenReceiptOptOutModal(true);
+        }}
+      >
+        <ModalContent.Header
+          actionCloseButton={() => {
+            setOpenReceiptOptOutModal(false);
+          }}
+        />
+        <ModalContent.Body>
+          <OptOutReceipt />
+        </ModalContent.Body>
+      </ModalContent.Root>
 
       <div className="mt-10 rounded bg-white px-5 py-8 shadow">
         <h3 className="mb-3 text-xl font-semibold">Selecione um filtro:</h3>
 
         <SelectFilters
           options={[
-            { id: 'document', name: 'CPF/CNPJ', hidden: 'CPF/CNPJ' },
+            { id: "document", name: "CPF/CNPJ", hidden: "CPF/CNPJ" },
             // { id: 'date', name: 'Data', hidden: 'Data' },
             // { id: 'name', name: 'Nome', hidden: 'Nome' },
-            { id: 'email', name: 'E-mail', hidden: 'E-mail' },
+            { id: "email", name: "E-mail", hidden: "E-mail" },
           ]}
           selected={filter}
           onChange={setFilter}
@@ -261,7 +301,7 @@ export function OptIn() {
           />
         )} */}
 
-        {filter.id === 'document' && (
+        {filter.id === "document" && (
           <Input
             type="text"
             label="CPF/CNPJ:"
@@ -281,7 +321,7 @@ export function OptIn() {
           />
         )} */}
 
-        {filter.id === 'email' && (
+        {filter.id === "email" && (
           <Input
             type="email"
             label="E-mail:"
@@ -347,7 +387,7 @@ export function OptIn() {
             {people.map((person) => (
               <tr key={person.email}>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                  {person.status === 'success' ? (
+                  {person.status === "success" ? (
                     <CheckCircleIcon
                       className="w-7 text-green-hover"
                       strokeWidth={1.5}
@@ -388,8 +428,9 @@ export function OptIn() {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      navigate('/opt_in_receipt', { state: 'opt-in' })
+                    onClick={
+                      () => setOpenReceiptOptInModal(true)
+                      /* navigate("/opt_in_receipt", { state: "opt-in" }) */
                     }
                   >
                     <DocumentPlusIcon className="w-6 text-dark-blue" />
@@ -397,8 +438,9 @@ export function OptIn() {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      navigate('/opt_in_receipt', { state: 'opt-out' })
+                    onClick={
+                      () => setOpenReceiptOptOutModal(true)
+                      /* navigate("/opt_in_receipt", { state: "opt-out" }) */
                     }
                   >
                     <DocumentMinusIcon className="ml-1 w-6 text-dark-blue" />
@@ -411,5 +453,5 @@ export function OptIn() {
       </div>
       <Pagination />
     </>
-  )
+  );
 }

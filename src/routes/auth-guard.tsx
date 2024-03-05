@@ -6,9 +6,7 @@ interface Props {
 }
 
 export function AuthGuard({ isPrivate }: Props) {
-  // const { signedIn } = useAuth()
-
-  const signedIn = true
+  const { signedIn } = useAuth()
 
   if (!signedIn && isPrivate) {
     return <Navigate to="/sign-in" replace />
