@@ -6,14 +6,15 @@ interface Props extends ComponentProps<'input'> {
   name?: string
   label: string
   error?: string
+  hidden?: boolean
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(
-  ({ placeholder, label, name, id, error, className, ...props }, ref) => {
+  ({ placeholder, label, name, id, error, className, hidden, ...props }, ref) => {
     const inputId = id ?? name
 
     return (
-      <div className="flex w-full flex-col">
+      <div className={`flex w-full flex-col ${hidden ? 'hidden': ''}`}>
         <label
           htmlFor={inputId}
           className="block text-sm font-medium leading-6 text-zinc-900"

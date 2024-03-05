@@ -15,16 +15,17 @@ import { Modal } from '@views/components/modal'
 import { Pagination } from '@views/components/pagination'
 import { SelectFilters, SelectProps } from '@views/components/select-filters'
 import { httpClient } from '@app/services/http-client'
-import { Form } from 'react-router-dom'
+
+import {User} from './user-controller'
 import {useUserController}  from './user-controller'
 import { Controller } from 'react-hook-form'
+
 export function Users() {
 
-  const { register, errors, control, handleCreateUser, handleDeleteUser, handleFetchUser, handleUpdateUser } = useUserController()
+  const { errors, control, handleCreateUser, handleDeleteUser, handleFetchUser, handleUpdateUser } = useUserController()
 
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState<User[]>([]);
   const [userDelete, setUserDelete] = useState('' as string)
-  const [userUpdate, setUserUpdate] = useState('' as string)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
    
@@ -60,10 +61,13 @@ const handleSubmit = async () => {
 
   const handleOpenEditModal = (id: string) => {
     setOpenEditModal(true)
-    setUserUpdate(id)
     handleFetchUser(id)
   }
-
+const handleSubmitUpdate = async () => {
+    await handleUpdateUser()
+    fetchUserData(); 
+    
+  }
 
   useEffect(() => {
     fetchUserData();
@@ -107,6 +111,7 @@ const handleSubmit = async () => {
   return (
     <>
       <Modal
+        action={() => {}}
         open={openProfileModal}
         setOpen={setOpenProfileModal}
         type="title"
@@ -319,7 +324,7 @@ const handleSubmit = async () => {
       </Modal>
 
       <Modal
-        action={() => handleUpdateUser(userUpdate)}
+        action={() => handleSubmitUpdate()}
         open={openEditModal}
         setOpen={setOpenEditModal}
         type="title"
@@ -460,7 +465,20 @@ const handleSubmit = async () => {
                 />
               )}
             />
-          
+          <Controller
+              control={control}
+              name="createdAt"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  hidden
+                  label=""
+                  value={value}
+                  onChange={onChange}
+                  
+                />
+              )}
+            />
         </div>
       </Modal>
 

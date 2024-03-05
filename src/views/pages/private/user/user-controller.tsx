@@ -3,10 +3,25 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+
+export type User = {
+    id: string
+    name: string
+    document: string
+    email: string
+    phone: string
+    whatsapp: string
+    job: string
+    role: string
+    accessLevel: string
+    password: string
+    createdAt: string
+}
 
 export function useUserController() {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState() as [User | undefined, (user: User) => void]
 
     const schema = z.object({
         name: z.string().min(1, {message: 'Nome é obrigatório'}),
@@ -55,10 +70,19 @@ export function useUserController() {
         }
     }
 
+    const setUserData = (data: any) => {
+        setUser(data)
+    }
+
+    useEffect(() => {
+        setUserData(user)
+    }, [user])
+
     const handleFetchUser = async (id: string) => {
         try {
             const response = await httpClient.get(`/user/${id}`)
             const userData = response.data.user
+           
             setValue('name', userData.name)
             setValue('document', userData.document)
             setValue('email', userData.email)
@@ -75,34 +99,19 @@ export function useUserController() {
         }
     }
 
-    const handleUpdateUser = async (id: string) => {
-        /* const userTeste = {
-            "id": "58f5d0bc-72d7-4066-b632-04a9c17e245b",
-            "name": "Rodrigao",
-            "document": "00000000000",
-            "email": "lucas@lucas.com",
-            "phone": "5521973400460",
-            "whatsapp": "5511973400460",
-            "job": "Op de caixa",
-            "role": "CLIENTE_EC",
-            "accessLevel": "Agente financeiro",
-            "createdAt": "2024-03-05T12:58:53.878Z"
-        } */
-        
-        console.warn(user)
-        console.warn(id)
+    const handleUpdateUser = hookFormHandleSubmit(async (data) => {
+
         try {
-            await httpClient.put(`/user/${id}`, user)
+            await httpClient.put(`/user/${user?.id}`, data)
+            reset()
         } catch (error:any) {
             alert(error.response.data.message)
         } finally {
-            alert(`Usuário atualizado com sucesso ID: ${id}`)
-            alert()
-        }
-    }
+            alert(`Usuário atualizado com sucesso ID: ${user?.id}`)
+        } 
+    } 
 
-    
-
+    )
     return { register, errors, control, handleCreateUser, handleDeleteUser, handleFetchUser, handleUpdateUser}
 }
 
