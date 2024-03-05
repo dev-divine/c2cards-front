@@ -9,6 +9,8 @@ import { EyeSlashIcon } from '@/assets/icons/eye-slash-icon'
 import { cn } from '@app/utils/cn'
 import { EnvelopeIcon, LockClosedIcon, XCircleIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
+import { Input } from '@views/components/input'
+import { Format } from '@app/utils/format'
 
 export function SignIn() {
   const { control, handleSubmit, isPending, errors } = useSignInController()
@@ -42,18 +44,17 @@ export function SignIn() {
               name="document"
               defaultValue=""
               render={({ field: { value, onChange } }) => (
-                <CpfCnpj
+                <Input
                  
-                  value={value}
+                  value={Format.document(value)}
                   onChange={onChange}
                   type="text"
                   placeholder="Documento"
                   id="email-login"
                   className={cn(
                     'h-[52px] w-full rounded-r border border-main-text bg-white px-3 text-main-text shadow outline-none',
-                     errors && '!border-red-600',
-                  )}
-                />
+                    errors && '!border-red-600'
+                  )} label={''}                />
               )}
             />
 
