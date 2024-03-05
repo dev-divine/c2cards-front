@@ -20,9 +20,11 @@ import {useUserController}  from './user-controller'
 import { Controller } from 'react-hook-form'
 export function Users() {
 
-  const { register, errors, control, handleCreateUser } = useUserController()
+  const { register, errors, control, handleCreateUser, handleDeleteUser, handleFetchUser, handleUpdateUser } = useUserController()
 
   const [userData, setUserData] = useState([]);
+  const [userDelete, setUserDelete] = useState('' as string)
+  const [userUpdate, setUserUpdate] = useState('' as string)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
    
@@ -46,10 +48,22 @@ export function Users() {
   };
 
 const handleSubmit = async () => {
-
-  await handleCreateUser()
-  fetchUserData(); 
+    await handleCreateUser()
+    fetchUserData(); 
   };
+
+  const handleDelete = (id: string) => {
+    setOpenDeleteModal(true)
+    setUserDelete(id)
+  }
+
+
+  const handleOpenEditModal = (id: string) => {
+    setOpenEditModal(true)
+    setUserUpdate(id)
+    handleFetchUser(id)
+  }
+
 
   useEffect(() => {
     fetchUserData();
@@ -305,6 +319,7 @@ const handleSubmit = async () => {
       </Modal>
 
       <Modal
+        action={() => handleUpdateUser(userUpdate)}
         open={openEditModal}
         setOpen={setOpenEditModal}
         type="title"
@@ -312,79 +327,150 @@ const handleSubmit = async () => {
         confirmText="Salvar alterações"
       >
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Nome:"
-            name="name"
-            // value={profile.responsible_name}
-            // error={errors.responsible_name?.message}
-            // {...register('responsible_name')}
-          />
+          <Controller
+              control={control}
+              name="name"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Nome:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.name?.message}
+                />
+              )}
+            />
 
-          <Input
-            label="CPF:"
-            name="document"
-            // value={Format.document(profile.responsible_document)}
-            // error={errors.responsible_document?.message}
-            // {...register('responsible_document')}
-          />
+          <Controller
+              control={control}
+              name="document"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="CPF:"
+                  value={Format.document(value)}
+                  onChange={onChange}
+                  maxLength={14}
+                 error={errors.document?.message}
+                />
+              )}
+            />
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="E-mail:"
-            name="email"
-            // value={profile.responsible_email}
-            // error={errors.responsible_email?.message}
-            // {...register('responsible_email')}
+          <Controller
+              control={control}
+              name="email"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+              <Input
+                label="E-mail:"
+                name="email"
+                value={value}
+                onChange={onChange}
+                error={errors.email?.message}
+              />
+          )}
           />
-
-          <Input
-            label="WhatsApp:"
-            name="whatsapp"
-            // value={profile.responsible_email}
-            // error={errors.responsible_email?.message}
-            // {...register('responsible_email')}
-          />
+          
+          <Controller
+              control={control}
+              name="whatsapp"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="WhatsApp:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.whatsapp?.message}
+                />
+              )}
+            />
+          
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Telefone:"
-            name="phone"
-            // value={profile.state}
-            // error={errors.responsible_city?.message}
-            // {...register('responsible_city')}
-          />
+          <Controller
+              control={control}
+              name="phone"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Telefone:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.phone?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="job"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Função:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.job?.message}
+                />
+              )}
+            />
 
-          <Input
-            label="Função:"
-            name="purpose"
-            // value={profile.neighborhood}
-            // error={errors.responsible_neighborhood?.message}
-            // {...register('responsible_neighborhood')}
-          />
+          
         </div>
 
         <div className="mb-1 flex flex-1 gap-3">
-          <Input
-            label="Permissões:"
-            name="permissions"
-            // value={profile.zipCode}
-            // error={errors.responsible_zip_code?.message}
-            // {...register('responsible_zip_code')}
-          />
-
-          <Input
-            label="Nivel de acesso:"
-            name="access"
-            // value={profile.state}
-            // error={errors.responsible_state?.message}
-            // {...register('responsible_state')}
-          />
+          <Controller
+              control={control}
+              name="role"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Permissões:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.role?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="accessLevel"
+              defaultValue="AGENTE_FINANCEIRO"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Nivel de acesso:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.accessLevel?.message}
+                />
+              )}
+            />
+          <Controller
+              control={control}
+              name="password"
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  label="Senha Temporaria:"
+                  value={value}
+                  onChange={onChange}
+                  error={errors.password?.message}
+                />
+              )}
+            />
+          
         </div>
       </Modal>
 
       <Modal
+        action={() => {
+          handleDeleteUser(userDelete)
+          setOpenDeleteModal(false)
+          setUserDelete('')
+          fetchUserData()
+        }}
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
         type="danger"
@@ -495,7 +581,7 @@ const handleSubmit = async () => {
             {userData.map((person) => (
               <tr key={person.email}>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {person.document}
+                  {Format.document(person.document)}
                 </td>
 
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -516,12 +602,12 @@ const handleSubmit = async () => {
                   >
                     <InformationCircleIcon className="w-6 text-dark-blue" />
                   </button>
-                  <button type="button" onClick={() => setOpenEditModal(true)}>
+                  <button type="button" onClick={() => handleOpenEditModal(person.id)}>
                     <PencilSquareIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
                   <button
                     type="button"
-                    onClick={() => setOpenDeleteModal(true)}
+                    onClick={() => handleDelete(person.id)}
                   >
                     <TrashIcon className="ml-1 w-6 text-dark-blue" />
                   </button>
