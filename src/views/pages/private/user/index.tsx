@@ -188,8 +188,9 @@ const handleSubmit = async () => {
               render={({ field: { value, onChange } }) => (
                 <Input
                   label="CPF:"
-                  value={value}
+                  value={Format.document(value)}
                   onChange={onChange}
+                  maxLength={14}
                  error={errors.document?.message}
                 />
               )}

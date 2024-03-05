@@ -1,19 +1,24 @@
 function document(document: string): string {
+  if (typeof document !== 'string') {
+    return document;
+  }
+  document = document.replace(/\D/g, '');
+
   if (document.length === 11) {
-    const p1 = document.slice(0, 3)
-    const p2 = document.slice(3, 6)
-    const p3 = document.slice(6, 9)
-    const checkDigits = document.slice(9)
-    return `${p1}.${p2}.${p3}-${checkDigits}`
+    const p1 = document.slice(0, 3);
+    const p2 = document.slice(3, 6);
+    const p3 = document.slice(6, 9);
+    const checkDigits = document.slice(9);
+    return `${p1}.${p2}.${p3}-${checkDigits}`;
   } else if (document.length === 14) {
-    const p1 = document.slice(0, 2)
-    const p2 = document.slice(2, 5)
-    const p3 = document.slice(5, 8)
-    const p4 = document.slice(8, 12)
-    const checkDigits = document.slice(12)
-    return `${p1}.${p2}.${p3}/${p4}-${checkDigits}`
+    const p1 = document.slice(0, 2);
+    const p2 = document.slice(2, 5);
+    const p3 = document.slice(5, 8);
+    const p4 = document.slice(8, 12);
+    const checkDigits = document.slice(12);
+    return `${p1}.${p2}.${p3}/${p4}-${checkDigits}`;
   } else {
-    return 'Invalid document'
+    return document;
   }
 }
 

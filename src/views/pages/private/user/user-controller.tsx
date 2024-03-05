@@ -5,6 +5,7 @@ import { z } from 'zod'
 import toast from 'react-hot-toast'
 
 export function useUserController() {
+
     const schema = z.object({
         name: z.string().min(1, {message: 'Nome é obrigatório'}),
         document: z.string().min(1, {message: 'CPF é obrigatório'}),
@@ -39,6 +40,9 @@ export function useUserController() {
             reset()
         }
     })
+
+    
+
     return { register, errors, control, handleCreateUser }
 }
 
