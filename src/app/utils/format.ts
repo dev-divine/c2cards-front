@@ -40,6 +40,15 @@ function parseIso(isoString: string): string {
   return `${day}/${month}/${year}`
 }
 
+function parseIsoBack(isoString: string): string {
+  const dateObj = new Date(isoString)
+  const day = dateObj.getUTCDate().toString().padStart(2, '0')
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0')
+  const year = dateObj.getUTCFullYear().toString()
+
+  return `${year}-${day}-${month}`
+}
+
 function formatIso(dateString: string): string {
   const [day, month, year] = dateString.split('/')
   const date = new Date(`${year}-${month}-${day}T00:00:00Z`)
@@ -75,4 +84,5 @@ export const Format = {
   phone,
   name,
   currency,
+  parseIsoBack,
 }

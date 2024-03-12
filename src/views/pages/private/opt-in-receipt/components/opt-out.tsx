@@ -1,5 +1,4 @@
 import { Format } from '@app/utils/format'
-import { Pagination } from '@views/components/pagination'
 
 export function OptOutReceipt() {
   const userName = 'Cesar Galvão'
@@ -26,7 +25,7 @@ export function OptOutReceipt() {
 
   return (
     <>
-      <div className="mt-10 rounded bg-white px-5 pb-8 pt-6 shadow-md">
+      <div className="flex-1 rounded bg-white px-5 pb-8 shadow-md">
         <h1 className="mb-4 text-2xl font-bold text-dark-blue">
           Comprovantes opt-out: {userName}
         </h1>
@@ -68,7 +67,7 @@ export function OptOutReceipt() {
               {optOut.map((optout) => (
                 <tr key={optout.b3_protocol}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-dark-blue sm:pl-6">
-                    <p>{Format.name(optout.company_name)}</p>
+                    <p>{optout.company_name}</p>
                     <p>{Format.document(optout.cpf)}</p>
                   </td>
 
@@ -105,8 +104,6 @@ export function OptOutReceipt() {
           </table>
         </div>
       </div>
-
-      <Pagination />
     </>
   )
 }

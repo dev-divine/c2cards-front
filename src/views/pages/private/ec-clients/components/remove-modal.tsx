@@ -2,51 +2,16 @@ import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-import { useNotification } from '@app/hooks/use-notification'
-import { httpClient } from '@app/services/http-client'
-
 import { Button } from '@views/components/button'
 
-import { useEcClientsController } from '@views/pages/private/ec-clients/use-ec-clients-controller'
-
 interface Props {
+  loading: boolean
+  handleDelete: any
   open: boolean
-  setOpen: (open: boolean) => void
-  item?: string
+  setOpen: (value: boolean) => void
 }
 
-export function RemoveModal({ open, setOpen, item }: Props) {
-  const { successToast, errorToast, parseError } = useNotification()
-
-  const { loading, setLoading, loadECClients } = useEcClientsController()
-
-  async function handleDelete() {
-    setLoading(true)
-    window.scrollTo(0, 0)
-
-    try {
-      await httpClient.delete<void>(`/ec-client/${item}`)
-
-      successToast({
-        title: 'Cliente (E.C) removido com sucesso!',
-        message:
-          'O estabelecimento comercial foi removido do sistema com sucesso.',
-      })
-
-      setOpen(false)
-
-      await loadECClients()
-    } catch (error) {
-      errorToast({
-        title: 'Erro ao remover estabelecimento comercial!',
-        message: parseError(error).message,
-        error,
-      })
-    } finally {
-      setLoading(false)
-    }
-  }
-
+export function RemoveModal({ handleDelete, loading, open, setOpen }: Props) {
   const cancelButtonRef = useRef(null)
 
   return (

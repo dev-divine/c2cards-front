@@ -1,225 +1,135 @@
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-]
+import { Link } from 'react-router-dom'
+
+import logoImage from '@/assets/logo-dark.png'
+import { useSignUpController } from '@views/pages/public/sign-up/use-sign-up-controller'
+import { Input } from '@views/components/input'
+import { InputDocument } from '@views/components/input-document'
+import { InputPhone } from '@views/components/input-phone'
+import { useState } from 'react'
+import { cn } from '@app/utils/cn'
+import { EyeIcon } from '@/assets/icons/eye-icon'
+import { EyeSlashIcon } from '@/assets/icons/eye-slash-icon'
+import { XCircleIcon } from '@heroicons/react/24/outline'
+import { Button } from '@views/components/button'
 
 export function SignUp() {
+  const { control, errors, handleSubmit, register, isPending } =
+    useSignUpController()
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState<
+    'password' | 'text'
+  >('password')
+
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Treinadores
-          </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Realizar matrícula de novo instrutor, alterações e deleções.
-          </p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    <div className="max-w-2xl items-center">
+      <h1 className="pb-4 px-3 text-2xl">Bem-vindo(a) a</h1>
+      <img src={logoImage} alt="alt" className="h-24 pl-3 mb-4 mx-auto" />
+      <p className="px-3 text-main-green font-semibold mb-3">
+        Desfrute da melhor tecnologia para o Fomento Comercial.
+      </p>
+
+      <form onSubmit={handleSubmit} className="space-y-2 px-3">
+        <Input
+          id="input-name"
+          label="Nome"
+          placeholder="Digite o nome"
+          className="w-full max-w-2xl"
+          error={errors.name?.message}
+          {...register('name')}
+        />
+        <InputDocument
+          label="CPF"
+          placeholder="Digite o CPF"
+          className="w-full max-w-2xl"
+          maxLength={14}
+          control={control}
+          error={errors.document?.message}
+          {...register('document')}
+        />
+        <Input
+          id="input-email"
+          label="E-mail"
+          placeholder="Digite o e-mail"
+          className="w-full max-w-2xl"
+          error={errors.email?.message}
+          {...register('email')}
+        />
+        <InputPhone
+          label="Telefone"
+          placeholder="Digite o telefone"
+          mask="+55 (99) 9999-9999"
+          className="w-full max-w-2xl"
+          error={errors.phone?.message}
+          {...register('phone')}
+        />
+        <InputPhone
+          label="WhatsApp"
+          placeholder="Digite o telefone"
+          className="w-full max-w-2xl"
+          mask="+55 (99) 99999-9999"
+          error={errors.whatsapp?.message}
+          {...register('whatsapp')}
+        />
+
+        <div className="flex flex-col pb-6">
+          <label
+            htmlFor="input-password"
+            className="block text-sm font-medium leading-6 text-zinc-900"
           >
-            Realizar matrícula
-          </button>
-        </div>
-      </div>
-      <div className="mt-8 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                    >
-                      Nome
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Cargo
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Função
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Espaços Esportivos
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Modalidades
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {people.map((person) => (
-                    <tr key={person.email}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        {person.name}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.title}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.email}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.role}
-                      </td>
-                      <td className="max-w-20 flex-wrap whitespace-nowrap px-3 py-4 text-xs text-gray-500">
-                        Futebol - Basquete
-                      </td>
-                      <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Editar<span className="sr-only">, {person.name}</span>
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            Digite sua senha:
+          </label>
+
+          <div className="relative">
+            <input
+              type={isPasswordVisible}
+              id="input-password"
+              {...register('password')}
+              placeholder="Digite sua senha"
+              className={cn(
+                'peer py-1.5 w-full rounded border border-zinc-400 placeholder:text-zinc-400 focus:border-green-hover focus:ring-0 disabled:pointer-events-none bg-white px-3 text-gray-800 shadow outline-none',
+                errors.password && '!border-red-600',
+              )}
+            />
+            <span
+              className="absolute right-0 top-[-7px] cursor-pointer"
+              onClick={() => {
+                setIsPasswordVisible((prev) =>
+                  prev === 'password' ? 'text' : 'password',
+                )
+              }}
+            >
+              {isPasswordVisible === 'password' ? (
+                <EyeIcon className="text-zinc-700 mx-3 my-2.5 h-8 w-8" />
+              ) : (
+                <EyeSlashIcon className="text-zinc-700 mx-3 my-2.5 h-8 w-8" />
+              )}
+            </span>
           </div>
+
+          {errors.password && (
+            <div className="mt-2 flex items-center gap-1.5 text-red-600">
+              <XCircleIcon className="h-5" />
+              <span className="text-xs">{errors.password?.message}</span>
+            </div>
+          )}
         </div>
+
+        <Button
+          type="submit"
+          className="mb-6 w-full bg-dark-blue px-3 mt-0 max-w-4xl"
+          isLoading={isPending}
+        >
+          Cadastrar
+        </Button>
+      </form>
+
+      <div className="px-3">
+        <p className="px-3 text-center text-main-text mt-3">
+          Já tem conta? Realize o login!
+          <Link to="/sign-in" className="ml-1 font-semibold text-main-text">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   )

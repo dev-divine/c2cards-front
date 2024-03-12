@@ -24,7 +24,7 @@ export function Pagination() {
   return (
     <div className="flex justify-between">
       <p className="hidden w-full min-w-24 items-center gap-1.5 pt-7 sm:flex">
-        {currentPage} de {totalPages + 1}{' '}
+        {currentPage} de {totalPages !== 0 ? totalPages : totalPages + 1}{' '}
         {currentPage === 1 ? 'página' : 'páginas'}
         {currentPage === 1 ? (
           <DocumentIcon className="text-cyan h-4" strokeWidth={2} />

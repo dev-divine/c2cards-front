@@ -11,6 +11,7 @@ interface Props extends ComponentProps<'input'> {
   placeholder?: string
   error?: string
   control?: any
+  id?: string
 }
 
 export const InputDocument = forwardRef<HTMLInputElement, Props>(
@@ -31,17 +32,16 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
 
         <Controller
           control={control}
-          name={inputId}
-          defaultValue=""
-          render={({ field: { value, onChange } }) => (
+          name={name}
+          render={({ field: { onChange, onBlur, value } }) => (
             <CpfCnpj
               {...props}
               value={value}
               onChange={onChange}
-              type="text"
-              placeholder={placeholder}
+              onBlur={onBlur}
               id={inputId}
               ref={ref}
+              placeholder={placeholder}
               className={cn(
                 'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow placeholder:text-zinc-400 focus:border-green-hover focus:ring-0 sm:text-sm sm:leading-6',
                 error && '!border-red-600',
@@ -61,4 +61,5 @@ export const InputDocument = forwardRef<HTMLInputElement, Props>(
     )
   },
 )
+
 InputDocument.displayName = 'InputDocument'

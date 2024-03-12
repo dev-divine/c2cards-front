@@ -107,7 +107,7 @@ export function ViewRequestedURs({ setTabs }: Props) {
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {Format.name(ur)}
+                    {ur}
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

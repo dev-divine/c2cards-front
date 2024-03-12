@@ -1,144 +1,143 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+import { useNotification } from '@app/hooks/use-notification'
+import { httpClient } from '@app/services/http-client'
 import { zodStringParser } from '@app/utils/custom-zod-error'
+import { localStorageKeys } from '@app/config/local-storage-keys'
+import { User } from '@app/contexts/auth-context'
 
 export function useProfileController() {
+  const { successToast, errorToast, parseError } = useNotification()
+
+  const [isPending, setIsPending] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    const getUser = async () => {
+      setIsPending(true)
+      try {
+        const { data } = await httpClient.get<{ user: User }>('/user/me')
+        if (isMounted) {
+          setUser(data)
+          localStorage.setItem(localStorageKeys.KEY_USER, JSON.stringify(data))
+        }
+      } catch (error) {
+        console.error('error in profile:', error)
+      } finally {
+        if (isMounted) setIsPending(false)
+      }
+    }
+
+    getUser()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   const schema = z.object({
-    phone: z
-      .string(zodStringParser('telefone'))
-      .min(1, { message: 'Telefone é obrigatório.' }),
+    name: z.string(zodStringParser('nome')),
+    document: z.string(zodStringParser('CPF')),
+    email: z
+      .string(zodStringParser('e-mail'))
+      .email({ message: 'E-mail inválido' }),
+    phone: z.string(zodStringParser('telefone')),
+    whatsapp: z.string(zodStringParser('WhatsApp')),
   })
 
   type FormData = z.infer<typeof schema>
 
   const {
+    control,
+    setValue,
     register,
     formState: { errors },
-    control,
+    handleSubmit: hookFormHandleSubmit,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: '',
+      document: '',
+      email: '',
+      phone: '',
+      whatsapp: '',
+    },
   })
 
-  // const handleSubmit = hookFormHandleSubmit(async (data: FormData) => {
-  //   setLoading(true)
-  //   window.scrollTo(0, 0)
+  useEffect(() => {
+    if (user) {
+      const userData = {
+        name: user.user.name || '',
+        document: user.user.document || '',
+        email: user.user.email || '',
+        phone: user.user.phone || '',
+        whatsapp: user.user.whatsapp || '',
+      }
 
-  //   try {
-  //     await citizensService.create(data)
+      Object.keys(userData).forEach((key) => {
+        setValue(key, userData[key], { shouldValidate: true })
+      })
+    }
+  }, [user, setValue])
 
-  //     setOpen(false)
+  const handleSubmit = hookFormHandleSubmit(async (data) => {
+    if (!user?.user?.id) {
+      errorToast({
+        title: 'Erro',
+        message:
+          'ID do usuário não encontrado. Não é possível atualizar o perfil.',
+      })
+      return
+    }
 
-  //     successToast({
-  //       title: 'Munícipe cadastrado com sucesso!',
-  //       message: 'O munícipe foi cadastrado no sistema com sucesso.',
-  //     })
+    setIsPending(true)
+    try {
+      console.log(user)
 
-  //     await loadCitizens()
-  //   } catch (error) {
-  //     errorToast({
-  //       title: 'Erro ao cadastrar munícipe!',
-  //       message:
-  //         parseError(error).message ??
-  //         'Não foi possível cadastrar o munícipe no sistema. Verifique sua conexão ou tente novamente mais tarde.',
-  //       error,
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // })
+      const response = await httpClient.put(`/user/${user?.user?.id}`, {
+        ...data,
+        document: data.document.replace(/\D/g, ''),
+        phone: data.phone.replace(/[^\d+]/g, ''),
+        whatsapp: data.whatsapp.replace(/[^\d+]/g, ''),
+      })
+      successToast({
+        title: 'Informações Pessoais',
+        message: 'Suas informações pessoais foram atualizadas com sucesso.',
+      })
 
-  // const handleSubmitEdit = hookFormHandleSubmit(async (data: FormData) => {
-  //   setLoading(true)
-  //   window.scrollTo(0, 0)
+      const updatedUser = response.data.user
 
-  //   try {
-  //     await citizensService.save({ ...data, id: editItem.id })
+      localStorage.removeItem(localStorageKeys.KEY_USER)
+      localStorage.setItem(
+        localStorageKeys.KEY_USER,
+        JSON.stringify(updatedUser),
+      )
 
-  //     setOpenEdit(false)
-
-  //     successToast({
-  //       title: 'Munícipe editado com sucesso',
-  //       message: 'Os dados do munícipe foram editados com sucesso no sistema.',
-  //     })
-
-  //     await loadCitizens()
-  //   } catch (error) {
-  //     errorToast({
-  //       title: 'Erro ao editar munícipe!',
-  //       message:
-  //         parseError(error).message ??
-  //         'Não foi possível editar os dados do munícipe. Verifique sua conexão ou tente novamente mais tarde.',
-  //       error,
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // })
-
-  // async function handleSubmitDelete(id: string) {
-  //   setLoading(true)
-  //   window.scrollTo(0, 0)
-
-  //   try {
-  //     await citizensService.remove(id)
-
-  //     setOpenDelete(false)
-
-  //     successToast({
-  //       title: 'Munícipe removido com sucesso!',
-  //       message: 'O munícipe foi removido do sistema com sucesso.',
-  //     })
-
-  //     await loadCitizens()
-  //   } catch (error) {
-  //     errorToast({
-  //       title: 'Erro ao remover munícipe!',
-  //       message:
-  //         parseError(error).message ??
-  //         'Não foi possível remover o munícipe. Verifique sua conexão ou tente novamente mais tarde.',
-  //       error,
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
-  // async function loadCitizens() {
-  //   try {
-  //     const data = await citizensService.list({
-  //       page: currentPage,
-  //       perPage: 10,
-  //     })
-  //     setCitizens(data.citizens)
-  //     setTotalPages(data.totalPages)
-  //   } catch (error) {
-  //     errorToast({
-  //       title: 'Erro ao carregar os munícipes!',
-  //       message:
-  //         parseError(error).message ??
-  //         'Não foi possível carregar os munícipes. Por favor tente novamente mais tarde.',
-  //       error,
-  //     })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
-  // const navigate = useNavigate()
-  // const { user } = useAuth()
-
-  // useEffect(() => {
-  //   if (user?.role.toString() === 'USER') {
-  //     navigate('/enrollment')
-  //   }
-  //   loadCitizens()
-  // }, [currentPage])
+      setValue('name', updatedUser?.name)
+      setValue('document', updatedUser?.document)
+      setValue('email', updatedUser?.email)
+      setValue('phone', updatedUser?.phone)
+      setValue('whatsapp', updatedUser?.whatsapp)
+    } catch (error) {
+      errorToast({
+        title: 'Erro ao atualizar suas informações pessoais.',
+        message: parseError(error).message,
+      })
+    } finally {
+      setIsPending(false)
+    }
+  })
 
   return {
-    register,
     errors,
     control,
+    isPending,
+    register,
+    handleSubmit,
   }
 }

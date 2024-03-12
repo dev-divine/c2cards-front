@@ -9,10 +9,24 @@ interface Props extends ComponentProps<'input'> {
   label: string
   error?: string
   mask?: string
+  defaultValue?: string
 }
 
 export const InputPhone = forwardRef<HTMLInputElement, Props>(
-  ({ placeholder, label, name, mask, id, error, className, ...props }, ref) => {
+  (
+    {
+      placeholder,
+      label,
+      name,
+      mask,
+      id,
+      error,
+      className,
+      defaultValue,
+      ...props
+    },
+    ref,
+  ) => {
     const inputId = id ?? name
 
     return (
@@ -31,6 +45,7 @@ export const InputPhone = forwardRef<HTMLInputElement, Props>(
           placeholder={placeholder}
           ref={ref as any}
           name={name}
+          defaultValue={defaultValue}
           id={inputId}
           className={cn(
             'block w-full max-w-sm rounded border border-zinc-400 py-1.5 text-xs text-zinc-900 shadow placeholder:text-zinc-400 focus:border-green-hover focus:ring-0 sm:text-sm sm:leading-6',

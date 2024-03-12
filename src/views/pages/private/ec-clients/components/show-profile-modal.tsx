@@ -2,46 +2,48 @@ import { Fragment, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
+// import { useAuth } from '@app/hooks/use-auth'
 import { Format } from '@app/utils/format'
 
 import { Input } from '@views/components/input'
-
-import {
-  IECClient,
-  useEcClientsController,
-} from '@views/pages/private/ec-clients/use-ec-clients-controller'
+import { useAuth } from '@app/hooks/use-auth'
 
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
-  item: IECClient
+  hookForm: any
 }
 
-export function ShowClientModal({ open, setOpen, item }: Props) {
-  const { setValue } = useEcClientsController()
+export function ShowClientModal({ open, setOpen, hookForm }: Props) {
+  const { user } = useAuth()
+
+  const { item, setValue } = hookForm
 
   const cancelButtonRef = useRef(null)
 
+  console.log(item.responsibleNeighborhood)
+
   useEffect(() => {
-    setValue('profile', item?.profile)
-    setValue('company_name', item?.company_name)
-    setValue('company_document', Format.document(item?.company_document ?? ''))
-    // setValue('user', Format.name(item.user)) // Quando implementar auth
-    setValue('company_email', item?.company_email)
+    setValue('companyDocument', Format.document(item?.companyDocument ?? ''))
+    // setValue('user', user.name) // Quando implementar auth
+    setValue('companyEmail', item?.companyEmail)
     setValue(
-      'responsible_whatsapp',
-      Format.phone(item?.responsible_whatsapp ?? ''),
+      'responsibleWhatsapp',
+      Format.phone(item?.responsibleWhatsapp ?? ''),
     )
-    // setValue('com', Format.phone(item?.responsible_whatsapp))
     setValue(
-      'responsible_city',
-      `${item?.responsible_city} - ${item?.responsible_state}`,
+      'responsibleWhatsapp',
+      Format.phone(item?.responsibleWhatsapp ?? ''),
+    )
+    setValue(
+      'responsibleCity',
+      `${item?.responsibleCity} - ${item?.responsibleState}`,
     ) // Criar format de UF
-    setValue('responsible_zip_code', item?.responsible_zip_code) // Adicionar format zipcode
-    setValue('responsible_neighborhood', item?.responsible_neighborhood)
+    setValue('responsibleZipCode', item?.responsibleZipCode) // Adicionar format zipcode
+    setValue('responsibleNeighborhood', item?.responsibleNeighborhood)
     setValue(
-      'responsible_street',
-      `${item?.responsible_street} - nº ${item?.responsible_number}`,
+      'responsibleStreet',
+      `${item?.responsibleStreet} - nº ${item?.responsibleNumber}`,
     )
   }, [item, setValue])
 
@@ -106,36 +108,48 @@ export function ShowClientModal({ open, setOpen, item }: Props) {
                 <div className="px-8 py-3">
                   <Input
                     name="profile"
+                    defaultValue={'Cliente (Estabelecimento Comercial)'}
                     label="Perfil"
                     className="mb-1 max-w-lg"
                     disabled
                   />
 
                   <Input
-                    name="company_name"
+                    name="companyName"
+                    defaultValue={item?.companyName}
                     label="Empresa"
                     className="mb-1 max-w-lg"
                     disabled
                   />
 
                   <Input
-                    name="company_document"
+                    name="companyDocument"
+                    defaultValue={item?.companyDocument}
                     label="CPF/CNPJ"
                     className="mb-1 max-w-lg"
                     disabled
                   />
 
+                  <div className="py-4 sm:mt-px">
+                    <h3 className="text-base font-semibold leading-6 text-zinc-900">
+                      Dados do representante - (E.C)
+                    </h3>
+                  </div>
+
                   <div className="flex gap-3">
                     <Input
                       name="user"
+                      defaultValue={JSON.stringify(user.name)
+                        .replace(`"`, ``)
+                        .replace(`"`, ``)}
                       label="Usuário"
                       className="mb-1 max-w-lg"
-                      value={Format.name('Bruno')} // Quando implementar auth
                       disabled
                     />
 
                     <Input
-                      name="company_email"
+                      name="companyEmail"
+                      defaultValue={item?.companyEmail}
                       label="E-mail"
                       className="mb-1 max-w-lg"
                       disabled
@@ -144,14 +158,18 @@ export function ShowClientModal({ open, setOpen, item }: Props) {
 
                   <div className="flex gap-3">
                     <Input
-                      name="responsible_phone"
+                      name="responsiblePhone"
+                      defaultValue={Format.phone(item?.responsiblePhone ?? '')}
                       label="Telefone"
                       className="mb-1 max-w-lg"
                       disabled
                     />
 
                     <Input
-                      name="responsible_whatsapp"
+                      name="responsibleWhatsapp"
+                      defaultValue={Format.phone(
+                        item?.responsibleWhatsapp ?? '',
+                      )}
                       label="WhatsApp"
                       className="pointer-events-none mb-1 max-w-lg"
                     />
@@ -159,14 +177,16 @@ export function ShowClientModal({ open, setOpen, item }: Props) {
 
                   <div className="flex gap-3">
                     <Input
-                      name="responsible_zip_code"
+                      name="responsibleZipCode"
+                      defaultValue={item?.responsibleZipCode}
                       label="CEP"
                       className="mb-1 max-w-lg"
                       disabled
                     />
 
                     <Input
-                      name="responsible_city"
+                      name="responsibleCity"
+                      defaultValue={`${item?.responsibleCity} - ${item?.responsibleState}`}
                       label="Cidade - UF"
                       className="mb-1 max-w-lg"
                       disabled
@@ -174,14 +194,16 @@ export function ShowClientModal({ open, setOpen, item }: Props) {
                   </div>
 
                   <Input
-                    name="responsible_neighborhood"
+                    name="responsibleNeighborhood"
+                    defaultValue={item?.responsibleNeighborhood}
                     label="Bairro"
                     className="mb-1 max-w-lg"
                     disabled
                   />
 
                   <Input
-                    name="responsible_street"
+                    name="responsibleStreet"
+                    defaultValue={`${item?.responsibleStreet} - nº ${item?.responsibleNumber}`}
                     label="Endereço"
                     className="mb-1 max-w-lg"
                     disabled

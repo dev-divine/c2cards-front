@@ -110,7 +110,7 @@ export function Schedule({ setType, setOpenRequestAgendaModal }: Props) {
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {Format.name(schedules.name)}
+                    {schedules.name}
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

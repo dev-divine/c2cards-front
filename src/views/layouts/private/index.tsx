@@ -12,6 +12,7 @@ import {
   UserCircleIcon,
   UserIcon,
   XMarkIcon,
+  ScaleIcon,
 } from '@heroicons/react/24/outline'
 
 import logo from '@/assets/logo.png'
@@ -121,6 +122,13 @@ export function PrivateLayout() {
                           />
 
                           <SidebarTopic
+                            Icon={<ScaleIcon className="h-6 w-6" />}
+                            linkTo="/contracts"
+                            title="Contratos"
+                            selected={route.pathname.startsWith('/contracts')}
+                          />
+
+                          <SidebarTopic
                             Icon={
                               <ClipboardDocumentListIcon className="h-6 w-6" />
                             }
@@ -205,6 +213,13 @@ export function PrivateLayout() {
                     linkTo="/opt_in"
                     title="OPT-In"
                     selected={route.pathname.startsWith('/opt_in')}
+                  />
+
+                  <SidebarTopic
+                    Icon={<ScaleIcon className="h-6 w-6" />}
+                    linkTo="/contracts"
+                    title="Contratos"
+                    selected={route.pathname.startsWith('/contracts')}
                   />
 
                   <SidebarTopic

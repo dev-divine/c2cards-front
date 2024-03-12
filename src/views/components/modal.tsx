@@ -16,6 +16,7 @@ interface Props {
   cancelText?: string
   confirmText?: string
   showCloseButton?: boolean
+  action: () => void
 }
 
 export function Modal({
@@ -27,8 +28,13 @@ export function Modal({
   cancelText,
   confirmText,
   showCloseButton = true,
+  action,
 }: Props) {
   const cancelButtonRef = useRef(null)
+
+  const handleAction = () => {
+    action()
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -126,7 +132,7 @@ export function Modal({
                           type === 'info' || 'title',
                       },
                     )}
-                    onClick={() => setOpen(false)}
+                    onClick={() => handleAction()}
                   >
                     {confirmText ?? 'Confirmar'}
                   </button>

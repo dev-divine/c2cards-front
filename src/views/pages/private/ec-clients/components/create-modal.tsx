@@ -1,75 +1,58 @@
-import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
-import { useNotification } from '@app/hooks/use-notification'
-import { httpClient } from '@app/services/http-client'
+import { Fragment, useEffect, useRef } from 'react'
 
 import { Input } from '@views/components/input'
 import { InputDocument } from '@views/components/input-document'
 import { InputPhone } from '@views/components/input-phone'
 
-import {
-  FormData,
-  useEcClientsController,
-} from '@views/pages/private/ec-clients/use-ec-clients-controller'
 import { Button } from '@views/components/button'
 
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
+  hookForm: {
+    errors: any
+    control: any
+    loading: boolean
+    register: any
+    setValue: any
+    handleCreate: (event: React.FormEvent<HTMLFormElement>) => void
+  }
 }
 
-export function CreateModal({ open, setOpen }: Props) {
-  const { successToast, errorToast, parseError } = useNotification()
-
-  const {
-    errors,
-    control,
-    loading,
-    register,
-    handleSubmit,
-    setLoading,
-    loadECClients,
-  } = useEcClientsController()
-
-  const handleCreate = handleSubmit(async (data: FormData) => {
-    setLoading(true)
-    window.scrollTo(0, 0)
-
-    try {
-      await httpClient.post('/ec-client', {
-        ...data,
-        company_document: data.company_document?.replace(/\D/g, ''),
-        company_phone: data.company_phone?.replace(/[^\d+]/g, ''),
-        company_whatsapp: data.company_whatsapp?.replace(/[^\d+]/g, ''),
-        company_zip_code: data.company_zip_code?.replace(/[^0-9]/g, ''),
-        responsible_document: data.responsible_document?.replace(/\D/g, ''),
-        responsible_whatsapp: data.responsible_whatsapp?.replace(/[^\d+]/g, ''),
-        responsible_zip_code: data.responsible_zip_code?.replace(/[^0-9]/g, ''),
-      })
-
-      setOpen(false)
-
-      successToast({
-        title: 'Cliente (E.C) cadastrado com sucesso!',
-        message:
-          'O estabelecimento comercial foi cadastrado no sistema com sucesso.',
-      })
-
-      await loadECClients()
-    } catch (error) {
-      errorToast({
-        title: 'Erro ao cadastrar estabelecimento comercial!',
-        message: parseError(error).message,
-        error,
-      })
-    } finally {
-      setLoading(false)
-    }
-  })
+export function CreateModal({ open, setOpen, hookForm }: Props) {
+  const { errors, control, loading, register, handleCreate, setValue } =
+    hookForm
 
   const cancelButtonRef = useRef(null)
+
+  useEffect(() => {
+    setValue('companyName', '')
+    setValue('companyDocument', '')
+    setValue('companyPhone', '')
+    setValue('companyWhatsApp', '')
+    setValue('companyEmail', '')
+    setValue('companyZipCode', '')
+    setValue('companyState', '')
+    setValue('companyCity', '')
+    setValue('companyNeighborhood', '')
+    setValue('companyStreet', '')
+    setValue('companyNumber', '')
+    setValue('companyComplement', '')
+    setValue('responsibleName', '')
+    setValue('responsibleEmail', '')
+    setValue('responsiblePhone', '')
+    setValue('responsibleWhatsapp', '')
+    setValue('responsibleDocument', '')
+    setValue('responsibleZipCode', '')
+    setValue('responsibleState', '')
+    setValue('responsibleCity', '')
+    setValue('responsibleNeighborhood', '')
+    setValue('responsibleStreet', '')
+    setValue('responsibleNumber', '')
+    setValue('responsibleComplement', '')
+  }, [setValue])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -137,16 +120,16 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Empresa"
                       placeholder="Digite o nome"
-                      error={errors.company_name?.message}
-                      {...register('company_name')}
+                      error={errors.companyName?.message}
+                      {...register('companyName')}
                     />
                     <InputDocument
                       id="company_document"
                       label="CNPJ"
                       placeholder="Digite o CNPJ"
                       control={control}
-                      error={errors.company_document?.message}
-                      {...register('company_document')}
+                      error={errors.companyDocument?.message}
+                      {...register('companyDocument')}
                     />
                   </div>
 
@@ -154,16 +137,16 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="E-mail"
                       placeholder="Digite o e-mail"
-                      error={errors.company_email?.message}
-                      {...register('company_email')}
+                      error={errors.companyEmail?.message}
+                      {...register('companyEmail')}
                     />
 
                     <InputPhone
                       label="Telefone"
                       placeholder="Digite o telefone"
                       mask="+55 (99) 9999-9999"
-                      error={errors.company_phone?.message}
-                      {...register('company_phone')}
+                      error={errors.companyPhone?.message}
+                      {...register('companyPhone')}
                     />
                   </div>
 
@@ -172,15 +155,15 @@ export function CreateModal({ open, setOpen }: Props) {
                       label="WhatsApp"
                       placeholder="Digite o WhatsApp"
                       mask="+55 (99) 99999-9999"
-                      error={errors.company_whatsapp?.message}
-                      {...register('company_whatsapp')}
+                      error={errors.companyWhatsApp?.message}
+                      {...register('companyWhatsApp')}
                     />
 
                     <Input
                       label="CEP"
                       placeholder="Digite o CEP"
-                      error={errors.company_zip_code?.message}
-                      {...register('company_zip_code')}
+                      error={errors.companyZipCode?.message}
+                      {...register('companyZipCode')}
                     />
                   </div>
 
@@ -188,15 +171,15 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Estado"
                       placeholder="Digite o estado"
-                      error={errors.company_state?.message}
-                      {...register('company_state')}
+                      error={errors.companyState?.message}
+                      {...register('companyState')}
                     />
 
                     <Input
                       label="Cidade"
                       placeholder="Digite a cidade"
-                      error={errors.company_city?.message}
-                      {...register('company_city')}
+                      error={errors.companyCity?.message}
+                      {...register('companyCity')}
                     />
                   </div>
 
@@ -204,15 +187,15 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Bairro"
                       placeholder="Digite o bairro"
-                      error={errors.company_neighborhood?.message}
-                      {...register('company_neighborhood')}
+                      error={errors.companyNeighborhood?.message}
+                      {...register('companyNeighborhood')}
                     />
 
                     <Input
                       label="Rua"
                       placeholder="Digite a rua"
-                      error={errors.company_street?.message}
-                      {...register('company_street')}
+                      error={errors.companyStreet?.message}
+                      {...register('companyStreet')}
                     />
                   </div>
 
@@ -220,15 +203,15 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Número"
                       placeholder="Digite o número"
-                      error={errors.company_number?.message}
-                      {...register('company_number')}
+                      error={errors.companyNumber?.message}
+                      {...register('companyNumber')}
                     />
 
                     <Input
                       label="Complemento (opcional)"
                       placeholder="Digite o complemento"
-                      error={errors.company_complement?.message}
-                      {...register('company_complement')}
+                      error={errors.companyComplement?.message}
+                      {...register('companyComplement')}
                     />
                   </div>
 
@@ -242,8 +225,8 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Nome"
                       placeholder="Digite o nome"
-                      error={errors.responsible_name?.message}
-                      {...register('responsible_name')}
+                      error={errors.responsibleName?.message}
+                      {...register('responsibleName')}
                     />
 
                     <InputDocument
@@ -252,8 +235,8 @@ export function CreateModal({ open, setOpen }: Props) {
                       placeholder="Digite o CPF"
                       maxLength={14}
                       control={control}
-                      error={errors.responsible_document?.message}
-                      {...register('responsible_document')}
+                      error={errors.responsibleDocument?.message}
+                      {...register('responsibleDocument')}
                     />
                   </div>
 
@@ -261,48 +244,67 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="E-mail"
                       placeholder="Digite o e-mail"
-                      error={errors.responsible_email?.message}
-                      {...register('responsible_email')}
+                      error={errors.responsibleEmail?.message}
+                      {...register('responsibleEmail')}
                     />
 
                     <InputPhone
-                      label="WhatsApp"
-                      placeholder="Digite o WhatsApp"
-                      mask="+55 (99) 99999-9999"
-                      error={errors.responsible_whatsapp?.message}
-                      {...register('responsible_whatsapp')}
+                      label="Telefone"
+                      id="responsible_phone"
+                      placeholder="Digite o telefone"
+                      mask="+55 (99) 9999-9999"
+                      error={errors.responsiblePhone?.message}
+                      {...register('responsiblePhone')}
                     />
                   </div>
 
                   <div className="mb-1 flex flex-1 gap-3">
+                    <InputPhone
+                      label="WhatsApp"
+                      id="responsible_whatsapp"
+                      placeholder="Digite o WhatsApp"
+                      mask="+55 (99) 99999-9999"
+                      error={errors.responsibleWhatsapp?.message}
+                      {...register('responsibleWhatsapp')}
+                    />
+
                     <Input
                       label="CEP"
                       placeholder="Digite o CEP"
-                      error={errors.responsible_zip_code?.message}
-                      {...register('responsible_zip_code')}
-                    />
-
-                    <Input
-                      label="Estado"
-                      placeholder="Digite o estado"
-                      error={errors.responsible_state?.message}
-                      {...register('responsible_state')}
+                      error={errors.responsibleZipCode?.message}
+                      {...register('responsibleZipCode')}
                     />
                   </div>
 
                   <div className="mb-1 flex flex-1 gap-3">
                     <Input
-                      label="Cidade"
-                      placeholder="Digite a cidade"
-                      error={errors.responsible_city?.message}
-                      {...register('responsible_city')}
+                      label="Estado"
+                      placeholder="Digite o estado"
+                      error={errors.responsibleState?.message}
+                      {...register('responsibleState')}
                     />
 
                     <Input
+                      label="Cidade"
+                      placeholder="Digite a cidade"
+                      error={errors.responsibleCity?.message}
+                      {...register('responsibleCity')}
+                    />
+                  </div>
+
+                  <div className="mb-1 flex flex-1 gap-3">
+                    <Input
                       label="Bairro"
                       placeholder="Digite o bairro"
-                      error={errors.responsible_neighborhood?.message}
-                      {...register('responsible_neighborhood')}
+                      error={errors.responsibleNeighborhood?.message}
+                      {...register('responsibleNeighborhood')}
+                    />
+
+                    <Input
+                      label="Rua"
+                      placeholder="Digite a rua"
+                      error={errors.responsibleStreet?.message}
+                      {...register('responsibleStreet')}
                     />
                   </div>
 
@@ -310,15 +312,15 @@ export function CreateModal({ open, setOpen }: Props) {
                     <Input
                       label="Número"
                       placeholder="Digite o número"
-                      error={errors.responsible_number?.message}
-                      {...register('responsible_number')}
+                      error={errors.responsibleNumber?.message}
+                      {...register('responsibleNumber')}
                     />
 
                     <Input
                       label="Complemento (opcional)"
                       placeholder="Digite o complemento"
-                      error={errors.responsible_complement?.message}
-                      {...register('responsible_complement')}
+                      error={errors.responsibleComplement?.message}
+                      {...register('responsibleComplement')}
                     />
                   </div>
 

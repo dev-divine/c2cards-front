@@ -19,7 +19,7 @@ export function AuthLayout() {
             destaque nos negócios.
           </p>
 
-          <p className="mb-3 text-2xl font-bold text-dark-blue">
+          <p className="mb-3 pt-3 text-2xl font-bold text-dark-blue">
             TECNOLOGIA X SISTEMA SEGURO E ÁGIL
           </p>
 
@@ -27,7 +27,7 @@ export function AuthLayout() {
             Trabalhamos com as melhores tecnologias do mercado.
           </p>
 
-          <p className="mb-3 text-main-text">
+          <p className="mb-3 pt-1.5 text-main-text">
             Nossa plataforma conta com a registradora B3 – Bolsa de Valores,
             referência mundial em infraestrutura de mercado financeiro. O nosso
             processo de emissão de Notas Comerciais está validado e aprovado
@@ -35,7 +35,7 @@ export function AuthLayout() {
             Investimentos.
           </p>
 
-          <p className="mb-4 text-main-text">
+          <p className="mb-16 text-main-text">
             Toda solidez, segurança e know-how dessas parceiras garantem
             qualidade total nas informações transacionais e otimização do
             monitoramento da operação.

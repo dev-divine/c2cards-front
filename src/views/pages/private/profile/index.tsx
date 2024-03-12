@@ -8,54 +8,67 @@ import { InputPhone } from '@views/components/input-phone'
 import { useProfileController } from '@views/pages/private/profile/use-profile-controller'
 
 export function Profile() {
-  const { control } = useProfileController()
+  const { control, errors, handleSubmit, register, isPending } =
+    useProfileController()
+
   return (
     <div className="flex h-full flex-col justify-between p-12 pt-10">
       <h1 className="text-4xl font-bold text-dark-blue">Configurações</h1>
 
-      <div className="mt-10 max-w-4xl rounded bg-white px-5 py-8 shadow">
-        <h3 className="mb-3 text-xl font-semibold">Informações da Empresa:</h3>
+      <form
+        onSubmit={handleSubmit}
+        className="mt-10 max-w-4xl rounded bg-white px-5 py-8 shadow space-y-1.5"
+      >
+        <h3 className="mb-1.5 text-xl font-semibold">
+          Informações da Empresa:
+        </h3>
 
         <Input
-          label="Razão Social:"
+          id="input-name"
+          label="Nome"
           placeholder="Digite o nome"
-          name="name"
-          className="mb-3"
+          error={errors.name?.message}
+          {...register('name')}
         />
         <InputDocument
+          label="CPF"
           name="document"
-          label=" CPF/CNPJ"
-          placeholder="Digite o CPF/CNPJ"
+          id="input-document"
+          placeholder="Digite o CPF"
           control={control}
-          className="mb-3"
+          error={errors.document?.message}
         />
-
         <Input
-          label="Endereço:"
-          placeholder="Digite o endereço"
-          name="address"
-          className="mb-3"
+          id="input-email"
+          label="E-mail"
+          placeholder="Digite o e-mail"
+          error={errors.email?.message}
+          {...register('email')}
         />
-
         <InputPhone
-          id={'phone-id'}
-          type="tel"
-          label="Telefone:"
-          placeholder="+55 (99) 99999-9999"
-          name="phone"
-          className="mb-3"
-          // error={errors.phone?.message}
-          // {...register('phone')}
+          label="Telefone"
+          placeholder="Digite o telefone"
+          mask="+55 (99) 9999-9999"
+          error={errors.phone?.message}
+          {...register('phone')}
+        />
+        <InputPhone
+          label="WhatsApp"
+          placeholder="Digite o telefone"
+          mask="+55 (99) 99999-9999"
+          error={errors.whatsapp?.message}
+          {...register('whatsapp')}
         />
 
         <label
           htmlFor="file-upload"
-          className="block text-sm font-medium leading-6 text-zinc-900"
+          className="block text-sm font-medium leading-6 text-zinc-900 pointer-events-none select-none"
         >
           Logo da sua empresa:
         </label>
+
         <label
-          className="mt-2 flex cursor-pointer justify-center rounded-lg border border-dashed border-gray-900/50 px-6 py-10 shadow"
+          className="mt-2 b-6 flex cursor-pointer justify-center rounded-lg border border-dashed border-gray-900/50 px-6 py-10 shadow pointer-events-none select-none"
           htmlFor="file-upload"
         >
           <div className="text-center">
@@ -83,15 +96,17 @@ export function Profile() {
             </p>
           </div>
         </label>
+
+        <div className="py-2" />
+
         <Button
-          form="login"
           type="submit"
-          className="my-6 w-full bg-dark-blue px-3"
-          // isLoading={isPending}
+          className=" w-full bg-dark-blue px-3"
+          isLoading={isPending}
         >
           Salvar
         </Button>
-      </div>
+      </form>
     </div>
   )
 }

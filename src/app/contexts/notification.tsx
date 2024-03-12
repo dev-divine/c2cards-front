@@ -19,7 +19,6 @@ export interface SuccessToast {
 export interface ErrorToast {
   title: string
   message: string
-  error?: unknown
 }
 
 interface ResponseError {
@@ -32,7 +31,7 @@ interface ResponseError {
 type NotificationContextData = {
   parseError: (err: unknown) => ResponseError
   successToast: ({ title, message }: SuccessToast) => void
-  errorToast: ({ title, message, error }: ErrorToast) => void
+  errorToast: ({ title, message }: ErrorToast) => void
 }
 
 type AuthProviderProps = {
@@ -74,14 +73,12 @@ export function NotificationProvider({ children }: AuthProviderProps) {
     }, 3000)
   }
 
-  function errorToast({ title, message, error }: ErrorToast) {
+  function errorToast({ title, message }: ErrorToast) {
     showNotification({
       type: 'error',
       title,
       message,
     })
-
-    console.error(error)
 
     setTimeout(() => {
       hidden()

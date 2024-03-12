@@ -6,6 +6,7 @@ import {
   useState,
   useEffect,
 } from 'react'
+import axios from 'axios'
 
 import { localStorageKeys } from '@app/config/local-storage-keys'
 
@@ -13,25 +14,30 @@ import { LaunchScreen } from '@views/components/launch-screen'
 import { httpClient } from '@app/services/http-client'
 
 export enum UserRole {
-  SECRETARY = 'SECRETARY',
-  DIRECTOR = 'DIRECTOR',
-  DIVISION_HEAD = 'DIVISION_HEAD',
+  DASHBOARD = 'DASHBOARD',
+  CLIENTE_EC = 'CLIENTE_EC',
+  OPT_IN = 'OPT_IN',
+  RECEBIVEIS = 'RECEBIVEIS',
+  URS = 'URS',
+  ANTECIPACOES = 'ANTECIPACOES',
+  USUARIOS = 'USUARIOS',
+  NOTA_COMERCIAL = 'NOTA_COMERCIAL',
+  SIMULACAO = 'SIMULACAO',
+  ASSINATURAS = 'ASSINATURAS',
 }
 
 export interface User {
   id: string
-  sportsFacility_id: string
   name: string
-  email: string
   document: string
+  email: string
   phone: string
-  password: string
-  position: string
+  whatsapp: string
   job: string
   role: UserRole
-  created_at?: Date
-  updated_at?: Date
-  deleted_at?: Date
+  password: string
+  accessLevel: string
+  createdAt?: Date
 }
 
 interface AuthState {
@@ -40,7 +46,7 @@ interface AuthState {
 }
 
 interface AuthContextValue {
-  user?: User
+  user: User
   signedIn: boolean
   signIn(accessToken: string): Promise<void>
   signOut(): void
@@ -93,9 +99,11 @@ export function AuthProvider({ children }: Props) {
   const signIn = useCallback(async (token: string) => {
     setLoading(true)
     try {
-      httpClient.defaults.headers.common.Authorization = `Bearer ${token}`
-
-      const { data } = await httpClient.get<{ user: User }>('/user/me')
+      const { data } = await axios.get<{ user: User }>('/user/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       localStorage.setItem(localStorageKeys.ACCESS_TOKEN, token)
       localStorage.setItem(localStorageKeys.KEY_USER, JSON.stringify(data.user))
@@ -117,7 +125,8 @@ export function AuthProvider({ children }: Props) {
   return (
     <AuthContext.Provider
       value={{
-        user: authState.user,
+        // @ts-expect-error - user is inside user object
+        user: authState.user?.user,
         signedIn,
         signIn,
         signOut,

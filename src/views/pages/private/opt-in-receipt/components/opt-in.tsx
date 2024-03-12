@@ -1,6 +1,5 @@
 import { Format } from '@app/utils/format'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
-import { Pagination } from '@views/components/pagination'
 
 export function OptInReceipt() {
   const optIn = [
@@ -31,7 +30,7 @@ export function OptInReceipt() {
 
   return (
     <>
-      <div className="mt-10 rounded bg-white px-5 pb-8 pt-6 shadow-md">
+      <div className="flex-1 rounded bg-white px-5 pb-8 shadow-md">
         <h1 className="mb-4 text-2xl font-bold text-dark-blue">
           Comprovantes opt-in: {userName}
         </h1>
@@ -72,7 +71,7 @@ export function OptInReceipt() {
               {optIn.map((optin) => (
                 <tr key={optin.b3_protocol}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-dark-blue sm:pl-6">
-                    <p>{Format.name(optin.company_name)}</p>
+                    <p>{optin.company_name}</p>
                     <p>{Format.document(optin.cpf)}</p>
                   </td>
 
@@ -131,8 +130,6 @@ export function OptInReceipt() {
           </table>
         </div>
       </div>
-
-      <Pagination />
     </>
   )
 }
