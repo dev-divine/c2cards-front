@@ -123,6 +123,7 @@ export function OptIn() {
         signatureDate: Format.parseIsoBack(data.activationDate),
         expirationDate: Format.formatIso(data.expirationDate),
       })
+      console.log(response.status)
 
       setOpenOptInModal(false)
 

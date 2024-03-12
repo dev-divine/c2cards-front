@@ -77,7 +77,7 @@ export function Contracts() {
   const [loading, setLoading] = useState(false)
   const [openContractModal, setOpenContractModal] = useState(true)
   const [contracts, setContracts] = useState<IContract[]>([])
-  const [contract, setContract] = useState({} as IContract)
+  const [contract] = useState({} as IContract)
   const [openEditContractModal, setOpenEditContractModal] = useState(false)
 
   const {
@@ -102,6 +102,7 @@ export function Contracts() {
         signatureDate: data.signatureDate.split('/').reverse().join('-'),
         expirationDate: data.expirationDate.split('/').reverse().join('-'),
       })
+      console.log(response.status)
 
       setOpenContractModal(false)
 

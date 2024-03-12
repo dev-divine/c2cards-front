@@ -26,7 +26,7 @@ export function OptOutReceipt() {
   const { errorToast, parseError } = useNotification()
   const { setTotalPages, currentPage } = usePagination()
 
-  const [loading, setLoading] = useState(true)
+  const [, setLoading] = useState(true)
   const [optOuts, setOptOuts] = useState<IOptOut[]>([])
 
   async function loadOptOuts() {

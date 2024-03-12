@@ -1,20 +1,20 @@
 import { endOfMonth, startOfMonth, subHours } from 'date-fns'
 import { useState } from 'react'
 
-import { Format } from '@app/utils/format'
+// import { Format } from '@app/utils/format'
 import { Button } from '@views/components/button'
 import { Datepicker } from '@views/components/date-picker'
 import { Input } from '@views/components/input'
-import { Modal } from '@views/components/modal'
+// import { Modal } from '@views/components/modal'
 import { SelectFilters, SelectProps } from '@views/components/select-filters'
-import { useAgendaController } from './use-schedule-controller'
-import { InputDocument } from '@views/components/input-document'
-import { InputPhone } from '@views/components/input-phone'
+// import { useAgendaController } from './use-schedule-controller'
+// import { InputDocument } from '@views/components/input-document'
+// import { InputPhone } from '@views/components/input-phone'
 import { Schedule } from './components/schedule'
 import { ScheduleReport } from './components/schedule-report'
 
 export function Agenda() {
-  const { register, errors, control } = useAgendaController()
+  // const { register, errors, control } = useAgendaController()
 
   const [filter, setFilter] = useState<SelectProps>({
     id: '',
@@ -22,29 +22,30 @@ export function Agenda() {
     hidden: 'Selecione o tipo de filtro',
   })
 
-  const agendas = {
-    company_name: 'Empresa Exemplo 1',
-    company_document: '12345678901',
-    company_email: 'contato@empresaexemplo1.com',
-    acquirer: 'Credenciadora Exemplo',
-    responsible_name: 'Responsável Exemplo',
-    responsible_email: 'responsavel@empresaexemplo1.com',
-    responsible_phone: '11999999999',
-    responsible_document: '98765432109',
-    initial_date: new Date('2024-01-01'),
-    end_date: new Date('2024-12-31'),
-  }
+  // const agendas = {
+  //   company_name: 'Empresa Exemplo 1',
+  //   company_document: '12345678901',
+  //   company_email: 'contato@empresaexemplo1.com',
+  //   acquirer: 'Credenciadora Exemplo',
+  //   responsible_name: 'Responsável Exemplo',
+  //   responsible_email: 'responsavel@empresaexemplo1.com',
+  //   responsible_phone: '11999999999',
+  //   responsible_document: '98765432109',
+  //   initial_date: new Date('2024-01-01'),
+  //   end_date: new Date('2024-12-31'),
+  // }
 
   const [startDate, setStartDate] = useState(startOfMonth(new Date()))
   const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
 
-  const [openRequestAgendaModal, setOpenRequestAgendaModal] = useState(false)
+  const [, setOpenRequestAgendaModal] = useState(false)
 
   const [type, setType] = useState('schedule')
 
   return (
     <>
-      <Modal
+
+      {/* <Modal
         open={openRequestAgendaModal}
         setOpen={setOpenRequestAgendaModal}
         type="title"
@@ -98,7 +99,7 @@ export function Agenda() {
               />
             )}
           /> */}
-        </div>
+        {/* </div>
 
         <div className="mb-1 flex flex-1 gap-3">
           <Input
@@ -151,7 +152,7 @@ export function Agenda() {
             {...register('end_date')}
           />
         </div>
-      </Modal>
+      </Modal> */}
 
       <div className="mt-10 rounded bg-white px-5 py-8 shadow">
         <h3 className="mb-3 text-xl font-semibold">Selecione um filtro:</h3>

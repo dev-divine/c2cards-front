@@ -1,7 +1,7 @@
 import { Format } from '@app/utils/format'
 import {
   ArrowUturnLeftIcon,
-  ExclamationTriangleIcon,
+  // ExclamationTriangleIcon,
   EyeIcon,
 } from '@heroicons/react/24/outline'
 import { Pagination } from '@views/components/pagination'
@@ -17,11 +17,11 @@ import safrapayLogo from '@/assets/flag-logos/banco-safra-logo.png'
 import pagseguroLogo from '@/assets/flag-logos/pagseguro-logo.png'
 import mercadoPagoLogo from '@/assets/flag-logos/mercado-pago-logo.png'
 import { DoubleLine } from '@views/components/double-line'
-import { DatePickerInput } from '@views/components/date-picker-input'
-import { Modal } from '@views/components/modal'
-import { useState } from 'react'
-import { endOfMonth, startOfMonth, subHours } from 'date-fns'
-import { Input } from '@views/components/input'
+// import { DatePickerInput } from '@views/components/date-picker-input'
+// import { Modal } from '@views/components/modal'
+// import { useState } from 'react'
+// import { endOfMonth, startOfMonth, subHours } from 'date-fns'
+// import { Input } from '@views/components/input'
 
 interface Props {
   setType: (value: string) => void
@@ -52,21 +52,20 @@ export function ScheduleReport({ setType }: Props) {
     },
   ]
 
-  const [startDate, setStartDate] = useState(startOfMonth(new Date()))
-  const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
+  // const [startDate, setStartDate] = useState(startOfMonth(new Date()))
+  // const [endDate, setEndDate] = useState(subHours(endOfMonth(new Date()), 3))
 
-  const [openScheduleModal, setOpenScheduleModal] = useState(false)
+  // const [openScheduleModal, setOpenScheduleModal] = useState(false)
 
   return (
     <>
-      <Modal
+      {/* <Modal
         open={openScheduleModal}
         setOpen={setOpenScheduleModal}
         type="title"
         title="Inclusão de Contrato UR"
         confirmText="Avançar"
       >
-        {/* Input document com controller */}
         <div className="mb-2 flex flex-1 gap-3">
           <Input
             label="Empresa:"
@@ -154,7 +153,7 @@ export function ScheduleReport({ setType }: Props) {
             </div>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       <div className="mt-10 rounded bg-white px-5 pb-8 pt-6 shadow-md">
         <div className="flex w-full items-start justify-between">
@@ -319,7 +318,7 @@ export function ScheduleReport({ setType }: Props) {
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <button
                       type="button"
-                      onClick={() => setOpenScheduleModal(true)}
+                      // onClick={() => setOpenScheduleModal(true)}
                     >
                       <EyeIcon className="ml-1 w-6 text-dark-blue" />
                     </button>

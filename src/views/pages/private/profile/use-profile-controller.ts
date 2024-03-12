@@ -13,7 +13,7 @@ export function useProfileController() {
   const { successToast, errorToast, parseError } = useNotification()
 
   const [isPending, setIsPending] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<any | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -71,7 +71,7 @@ export function useProfileController() {
 
   useEffect(() => {
     if (user) {
-      const userData = {
+      const userData: any = {
         name: user.user.name || '',
         document: user.user.document || '',
         email: user.user.email || '',
@@ -79,7 +79,7 @@ export function useProfileController() {
         whatsapp: user.user.whatsapp || '',
       }
 
-      Object.keys(userData).forEach((key) => {
+      Object.keys(userData).forEach((key: any) => {
         setValue(key, userData[key], { shouldValidate: true })
       })
     }
